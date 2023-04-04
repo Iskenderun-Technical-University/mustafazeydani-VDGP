@@ -1,0 +1,59 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    border: 0;
+	outline: 0;
+	list-style: none;
+	text-decoration: none;
+}
+
+:root {
+    --color-primary: #97c9f7; 
+    --color-variant: #fff;
+    --color-black: #000;
+    --color-lightgrey: rgb(187, 186, 186);
+
+    --transition: all 400ms ease;
+}
+
+a {
+    color: var(--color-black);
+    transition: var(--transition);
+    -webkit-tap-highlight-color: transparent;
+}
+
+a:hover {
+    color: var(--color-primary);
+}
+
+.btn {
+    width: max-content;
+    display: inline-block;
+    color: var(--color-variant);
+    padding: 0.5em 1.7em;
+    border-radius: 0.5em;
+    cursor: pointer;
+    border: 2px solid var(--color-primary);
+    transition: var(--transition);
+    background: var(--color-primary);
+}
+
+.btn:hover {
+    color: var(--color-primary);
+    background: var(--color-variant);
+}
+
+*::-webkit-scrollbar {
+    width: 12px;               /* width of the entire scrollbar */
+  }
+  
+  *::-webkit-scrollbar-track {
+    background: #f1f0f0;        /* color of the tracking area */
+  }
+  
+  *::-webkit-scrollbar-thumb {
+    background-color: var(--color-primary);    /* color of the scroll thumb */
+    border-radius: 20px;       /* roundness of the scroll thumb */
+    border: 3px solid #f1f0f0;  /* creates padding around scroll thumb */
+  }
