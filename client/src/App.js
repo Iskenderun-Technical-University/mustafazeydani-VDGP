@@ -3,19 +3,19 @@ import {
   Outlet,
   RouterProvider,
 } from "react-router-dom"
-import Home from "./pages/Home"
+import Home from "./pages/projects/Projects"
 import Register from "./pages/auth/Register"
 import Login from "./pages/auth/Login"
 import "./index.css"
 import Panels from "./components/Panels"
 
-
 const Layout = ()=>{
   return (
     <>
       <Panels />
-      <Outlet />
-      {/* <InfoPanel /> */}
+      <div className='outlet'>
+        <Outlet />
+      </div>
     </>
   )
 }
@@ -28,7 +28,7 @@ const router = createBrowserRouter([
       {
         path: "/",
         element: <Home />
-      } /*********** */
+      }
     ]
   },
   {

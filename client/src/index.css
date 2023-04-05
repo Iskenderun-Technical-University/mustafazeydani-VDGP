@@ -12,7 +12,8 @@
     --color-primary: #97c9f7; 
     --color-variant: #fff;
     --color-black: #000;
-    --color-lightgrey: rgb(187, 186, 186);
+    --color-lightgrey: rgb(241, 241, 241);
+    --color-darkgrey: rgb(171, 170, 170);
 
     --transition: all 400ms ease;
 }
@@ -56,4 +57,14 @@ a:hover {
     background-color: var(--color-primary);    /* color of the scroll thumb */
     border-radius: 20px;       /* roundness of the scroll thumb */
     border: 3px solid #f1f0f0;  /* creates padding around scroll thumb */
+  }
+
+  .outlet {
+    position: absolute;
+    top: 100px;
+    left: 100px;
+    background-color: #f5f7f8;
+    border-radius: 30px 30px 0 0;
+    width: calc(100% - 500px);
+    height: calc(100vh - 100px);
   }
