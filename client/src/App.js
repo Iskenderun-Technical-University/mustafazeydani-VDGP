@@ -3,7 +3,9 @@ import {
   Outlet,
   RouterProvider,
 } from "react-router-dom"
-import Home from "./pages/projects/Projects"
+import { useEffect } from "react"
+import Projects from "./pages/projects/Projects"
+import Tasks from "./pages/tasks/Tasks"
 import Register from "./pages/auth/Register"
 import Login from "./pages/auth/Login"
 import "./index.css"
@@ -27,7 +29,11 @@ const router = createBrowserRouter([
     children:[
       {
         path: "/",
-        element: <Home />
+        element: <Projects />
+      },
+      {
+        path: "/tasks",
+        element: <Tasks />
       }
     ]
   },
@@ -42,6 +48,22 @@ const router = createBrowserRouter([
 ]);
 
 function App() {
+  useEffect(() => {
+    function flexFont() {
+      let divs = document.getElementsByClassName("flexFont");
+      document.getElementsByClassName("flexFont");
+      for (let i = 0; i < divs.length; i++) {
+          let relFontsize = divs[i].offsetWidth * 0.05;
+          divs[i].style.fontSize = relFontsize + 'px';
+      }
+    }
+
+    window.addEventListener('resize', flexFont);
+    flexFont(); 
+
+    return () => window.removeEventListener('resize', flexFont);
+  }, []);
+
   return (
     <div className="app">
       <div className="container">
@@ -50,7 +72,5 @@ function App() {
     </div>
   );
 }
-
-
 
 export default App;

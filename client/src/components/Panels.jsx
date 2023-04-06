@@ -6,8 +6,12 @@ import User from '../assets/user.svg'
 import {
   AiOutlineUser, 
   AiFillDelete, 
-  AiFillEdit
+  AiFillEdit,
+  AiFillSetting
 } from 'react-icons/ai'
+import {
+  ImExit
+} from 'react-icons/im'
 
 
 const Navbar = () => {
@@ -17,22 +21,22 @@ const Navbar = () => {
         
         <div className="leftpanel-links">
           <img src={Logo} alt="logo" />
+          {/* <Link className='link' to=''><AiOutlineUser/></Link>
           <Link className='link' to=''><AiOutlineUser/></Link>
           <Link className='link' to=''><AiOutlineUser/></Link>
-          <Link className='link' to=''><AiOutlineUser/></Link>
-          <Link className='link' to=''><AiOutlineUser/></Link>
+          <Link className='link' to=''><AiOutlineUser/></Link> */}
         </div>
 
         <div className="controls">
-          <a href=""><AiOutlineUser/></a>
-          <a href=""><AiOutlineUser/></a>
+          <a href=""><AiFillSetting/></a>
+          <a href=""><ImExit/></a>
         </div>
       </div>
 
       <div className="upperpanel">
         <div className="upperpanel-links">
-          <Link className='link'>My Projects</Link>
-          <Link className='link'>My Tasks</Link>
+          <Link to="/" className='link'>My Projects</Link>
+          <Link to="/tasks" className='link'>My Tasks</Link>
         </div>
         <a className="btn" href="">Create New Project</a>
       </div>
