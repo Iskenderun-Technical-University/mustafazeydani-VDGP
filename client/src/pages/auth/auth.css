@@ -7,7 +7,7 @@
     background-color: var(--color-primary);
 }
 
-h1 {
+.auth h2 {
     font-size: 25px;
     color: var(--color-primary);
     margin-bottom: 20px;
@@ -27,22 +27,22 @@ form {
     gap: 2em;
 }
 
-input,
+.auth input,
 .auth .btn {
     font-size: 18px;
     width: 100%;
 }
 
-input {
+.auth input {
     border: 2px solid transparent;
     padding: 0.5em 0.3em;
 }
 
-input {
+.auth input {
     border-bottom: 2px solid rgb(209, 209, 209) ;
 }
 
-input:focus {
+.auth input:focus {
     outline: none;
     border: 2px solid var(--color-primary);
     box-shadow: 0 0 10px #719ECE;

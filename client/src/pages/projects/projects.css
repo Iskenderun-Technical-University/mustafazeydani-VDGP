@@ -4,7 +4,11 @@
     overflow-y: auto;
 }
 
-.top-bar {
+.select {
+    background: transparent;
+}
+
+.projects .top-bar {
     width: 100%;
     display: flex;
     align-items: center;
@@ -12,15 +16,11 @@
     margin-bottom: 4em;
 }
 
-.top-bar-icons {
+.projects .top-bar-icons {
     display: flex;
     font-size: 1.5em;
     gap: 1em;
     margin-right: auto;
-}
-
-.select {
-    background: transparent;
 }
 
 .filter-type {

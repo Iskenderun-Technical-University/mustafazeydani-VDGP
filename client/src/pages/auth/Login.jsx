@@ -6,7 +6,7 @@ const Login = () => {
   return (
     <div className='auth'>
       <form>
-        <h1>Login</h1>
+        <h2>Login</h2>
         <input type="text" placeholder='username' required/>
         <input type="password" placeholder='password' required/>
         <button className='btn'>Login</button>
