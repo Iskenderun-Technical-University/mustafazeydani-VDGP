@@ -10,6 +10,9 @@ CREATE TABLE `projects`(
 ALTER TABLE `projects`
     ADD PRIMARY KEY(`uuid`);
 
+ALTER TABLE `projects`
+    ADD INDEX `projects_name_index`(`name`);
+
 CREATE TABLE `notes`(
     `uuid` VARCHAR(36) NOT NULL,
     `user_uuid` VARCHAR(36) NOT NULL,
@@ -86,19 +89,19 @@ ALTER TABLE `projects`
     REFERENCES `users`(`uuid`)
     ON DELETE CASCADE;
 
-ALTER TABLE `projects`
-    ADD CONSTRAINT `projects_name_foreign` 
-    FOREIGN KEY(`name`) 
-    REFERENCES `tasks`(`project_name`)
+ALTER TABLE `tasks`
+    ADD CONSTRAINT `tasks_project_name_foreign` 
+    FOREIGN KEY(`project_name`) 
+    REFERENCES `projects`(`name`)
     ON DELETE CASCADE;
 
-ALTER TABLE `notes` 
+ALTER TABLE `notes`
     ADD CONSTRAINT `notes_user_uuid_foreign` 
     FOREIGN KEY(`user_uuid`) 
     REFERENCES `users`(`uuid`)
     ON DELETE CASCADE;
 
-ALTER TABLE `users` 
+ALTER TABLE `users`
     ADD CONSTRAINT `users_uuid_foreign` 
     FOREIGN KEY(`uuid`) 
     REFERENCES `project_statistics`(`user_uuid`)
