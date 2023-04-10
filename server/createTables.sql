@@ -36,15 +36,20 @@ CREATE TABLE `tasks`(
 ALTER TABLE `tasks`
     ADD PRIMARY KEY(`uuid`);
 
-CREATE TABLE `project_specifications`(
+ALTER TABLE `tasks`
+    ADD INDEX `tasks_project_name_index`(`project_name`);
+
+CREATE TABLE `project_specs`(
+    `uuid` VARCHAR(36) NOT NULL,
     `project_uuid` VARCHAR(36) NOT NULL,
     `specification` VARCHAR(255) NOT NULL
 );
 
-ALTER TABLE `project_specifications`
-    ADD PRIMARY KEY(`project_uuid`);
+ALTER TABLE `project_specs`
+    ADD PRIMARY KEY(`uuid`);
 
-CREATE TABLE `project_statistics`(
+CREATE TABLE `project_stats`(
+    `uuid` VARCHAR(36) NOT NULL,
     `user_uuid` VARCHAR(36) NOT NULL,
     `total` INT NOT NULL,
     `completed` INT NOT NULL,
@@ -52,57 +57,64 @@ CREATE TABLE `project_statistics`(
     `out_of_schedule` INT NOT NULL
 );
 
-ALTER TABLE `project_statistics`
-    ADD PRIMARY KEY(`user_uuid`);
+ALTER TABLE `project_stats`
+    ADD PRIMARY KEY(`uuid`);
 
 CREATE TABLE `users`(
     `uuid` VARCHAR(36) NOT NULL,
     `username` VARCHAR(25) NOT NULL,
     `email` VARCHAR(25) NOT NULL,
-    `password` VARCHAR(25) NOT NULL
+    `password` VARCHAR(60) NOT NULL
 );
 
 ALTER TABLE `users`
     ADD PRIMARY KEY(`uuid`);
 
 ALTER TABLE `tasks`
-    ADD CONSTRAINT `tasks_user_uuid_foreign` 
+    ADD CONSTRAINT 
+    `tasks_user_uuid_foreign` 
     FOREIGN KEY(`user_uuid`) 
     REFERENCES `users`(`uuid`)
     ON DELETE CASCADE;
-
-ALTER TABLE `project_specifications`
-    ADD CONSTRAINT `project_specifications_project_uuid_foreign` 
+    
+ALTER TABLE `project_specs`
+    ADD CONSTRAINT 
+    `project_specs_project_uuid_foreign` 
     FOREIGN KEY(`project_uuid`) 
     REFERENCES `projects`(`uuid`)
     ON DELETE CASCADE;
-
+    
 ALTER TABLE `tasks`
-    ADD CONSTRAINT `tasks_project_uuid_foreign` 
+    ADD CONSTRAINT 
+    `tasks_project_uuid_foreign` 
     FOREIGN KEY(`project_uuid`) 
     REFERENCES `projects`(`uuid`)
     ON DELETE CASCADE;
-
+    
 ALTER TABLE `projects`
-    ADD CONSTRAINT `projects_user_uuid_foreign` 
+    ADD CONSTRAINT 
+    `projects_user_uuid_foreign` 
     FOREIGN KEY(`user_uuid`) 
     REFERENCES `users`(`uuid`)
     ON DELETE CASCADE;
-
-ALTER TABLE `tasks`
-    ADD CONSTRAINT `tasks_project_name_foreign` 
-    FOREIGN KEY(`project_name`) 
-    REFERENCES `projects`(`name`)
+    
+ALTER TABLE `projects`
+    ADD CONSTRAINT 
+    `projects_name_foreign` 
+    FOREIGN KEY(`name`) 
+    REFERENCES `tasks`(`project_name`)
     ON DELETE CASCADE;
-
+    
 ALTER TABLE `notes`
-    ADD CONSTRAINT `notes_user_uuid_foreign` 
+    ADD CONSTRAINT 
+    `notes_user_uuid_foreign` 
     FOREIGN KEY(`user_uuid`) 
     REFERENCES `users`(`uuid`)
     ON DELETE CASCADE;
-
-ALTER TABLE `users`
-    ADD CONSTRAINT `users_uuid_foreign` 
-    FOREIGN KEY(`uuid`) 
-    REFERENCES `project_statistics`(`user_uuid`)
+    
+ALTER TABLE `project_stats`
+    ADD CONSTRAINT 
+    `project_stats_user_uuid_foreign` 
+    FOREIGN KEY(`user_uuid`) 
+    REFERENCES `users`(`uuid`)
     ON DELETE CASCADE;
