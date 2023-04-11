@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import './panels.css'
 import { Link } from 'react-router-dom'
 import Logo from '../assets/logo.svg'
@@ -12,9 +12,13 @@ import {
 import {
   ImExit
 } from 'react-icons/im'
+import { AuthContext } from '../context/authContext'
 
 
-const Navbar = () => {
+const Panels = () => {
+
+  const { currentUser, logout } = useContext(AuthContext)
+
   return (
     <div className='panels'>
       <div className="leftpanel">
@@ -29,7 +33,7 @@ const Navbar = () => {
 
         <div className="controls">
           <a href=""><AiFillSetting/></a>
-          <a href=""><ImExit/></a>
+          <Link onClick={logout} to="/login"><ImExit/></Link>
         </div>
       </div>
 
@@ -43,7 +47,7 @@ const Navbar = () => {
 
       <div className="rightpanel">
         <div className="user">
-          <p>Hello,<br/><span>Mustafa</span></p>
+          <p>Hello,<br/><span>{currentUser.username}</span></p>
           <img src={User}/>
         </div>
         <div className="statistics">
@@ -105,4 +109,4 @@ const Navbar = () => {
   )
 }
 
-export default Navbar
+export default Panels
