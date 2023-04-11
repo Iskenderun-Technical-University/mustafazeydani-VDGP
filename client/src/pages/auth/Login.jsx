@@ -21,6 +21,12 @@ const Login = () => {
 
   const handleSubmit = async e => {
     e.preventDefault()
+    
+    const {username, password} = inputs
+    
+    if(!username || !password)
+      return null
+
     try {
       await login(inputs)
       navigate("/")

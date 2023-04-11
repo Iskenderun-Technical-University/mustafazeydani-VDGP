@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { useState ,useContext } from 'react'
 import './panels.css'
 import { Link } from 'react-router-dom'
 import Logo from '../assets/logo.svg'
@@ -12,15 +12,22 @@ import {
 import {
   ImExit
 } from 'react-icons/im'
+import AddProject from './AddProject'
 import { AuthContext } from '../context/authContext'
 
-
 const Panels = () => {
+
+  const [showDialog, setShowDialog] = useState(false)
+
+  const handleCreateProjectClick = () => {
+    setShowDialog(true);
+  }
 
   const { currentUser, logout } = useContext(AuthContext)
 
   return (
     <div className='panels'>
+      {showDialog && <AddProject setShowDialog={setShowDialog} />}
       <div className="leftpanel">
         
         <div className="leftpanel-links">
@@ -42,7 +49,7 @@ const Panels = () => {
           <Link to="/" className='link'>My Projects</Link>
           <Link to="/tasks" className='link'>My Tasks</Link>
         </div>
-        <a className="btn" href="">Create New Project</a>
+        <a className="btn" onClick={handleCreateProjectClick}>Create New Project</a>
       </div>
 
       <div className="rightpanel">
