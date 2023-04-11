@@ -34,6 +34,13 @@
     gap: 1em;
 }
 
+.projects-items p {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+}
+
 .projects-item {
     position: relative;
     background: var(--color-variant);

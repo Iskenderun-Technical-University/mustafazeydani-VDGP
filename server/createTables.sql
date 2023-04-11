@@ -3,6 +3,7 @@ CREATE TABLE `projects`(
     `user_uuid` VARCHAR(36) NOT NULL,
     `name` VARCHAR(25) NOT NULL,
     `field` VARCHAR(25) NOT NULL,
+    `description` TEXT NOT NULL,
     `creation_date` DATE NOT NULL,
     `is_favourite` TINYINT(1) NOT NULL
 );
@@ -39,15 +40,6 @@ ALTER TABLE `tasks`
 ALTER TABLE `tasks`
     ADD INDEX `tasks_project_name_index`(`project_name`);
 
-CREATE TABLE `project_specs`(
-    `uuid` VARCHAR(36) NOT NULL,
-    `project_uuid` VARCHAR(36) NOT NULL,
-    `specification` VARCHAR(255) NOT NULL
-);
-
-ALTER TABLE `project_specs`
-    ADD PRIMARY KEY(`uuid`);
-
 CREATE TABLE `project_stats`(
     `uuid` VARCHAR(36) NOT NULL,
     `user_uuid` VARCHAR(36) NOT NULL,
@@ -77,13 +69,6 @@ ALTER TABLE `tasks`
     REFERENCES `users`(`uuid`)
     ON DELETE CASCADE;
     
-ALTER TABLE `project_specs`
-    ADD CONSTRAINT 
-    `project_specs_project_uuid_foreign` 
-    FOREIGN KEY(`project_uuid`) 
-    REFERENCES `projects`(`uuid`)
-    ON DELETE CASCADE;
-    
 ALTER TABLE `tasks`
     ADD CONSTRAINT 
     `tasks_project_uuid_foreign` 
@@ -97,12 +82,11 @@ ALTER TABLE `projects`
     FOREIGN KEY(`user_uuid`) 
     REFERENCES `users`(`uuid`)
     ON DELETE CASCADE;
-    
-ALTER TABLE `projects`
-    ADD CONSTRAINT 
-    `projects_name_foreign` 
-    FOREIGN KEY(`name`) 
-    REFERENCES `tasks`(`project_name`)
+
+ALTER TABLE `tasks`
+    ADD CONSTRAINT `tasks_project_name_foreign` 
+    FOREIGN KEY(`project_name`) 
+    REFERENCES `projects`(`name`)
     ON DELETE CASCADE;
     
 ALTER TABLE `notes`

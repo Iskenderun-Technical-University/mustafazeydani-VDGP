@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import {
   BiCheckbox,
   // BiCheckboxChecked,
@@ -8,14 +8,34 @@ import {
 } from 'react-icons/ai'
 import {AiFillDelete} from 'react-icons/ai'
 import './projects.css'
+import axios from 'axios'
 
 
 const Home = () => {
+
+  const [projects, setProjects] = useState([])
+
+  const [err, setError] = useState(null)
+
+  useEffect(()=>{
+    const fetchData = async () =>{
+      try {
+        const res = await axios.get("/projects")
+        setProjects(res.data)
+      }
+      catch(err) {
+        setError("Error fetching projects")
+      }
+    }
+    fetchData()
+  },[])
+
   const [selectedOption, setSelectedOption] = useState("name")
 
   const handleChange = (event) => {
     setSelectedOption(event.target.value);
   }
+  
   return (
     <div className='projects'>
       <div className='top-bar'>
@@ -40,68 +60,29 @@ const Home = () => {
         </div>
       </div>
       <div className="projects-items">
-
-        <div className="projects-item flexFont">
-          <h2 className='project-name'>Financial System</h2>
-          <ul className="project-details">
-            <li>Website Architecture</li>
-            <li>Web Design</li>
-          </ul>
-          <div className="project-category">Web Development</div>
-          <div className="project-footer">
-            <p className='project-creation'>1 day go</p>
-            <div className="project-icons">
-              <AiFillStar className='project-fav-icon' />
-              <BiCheckbox className='project-select-icon' />
+        {err ? (<p>{err}</p>) : projects.length === 0 && (<p>No Projects Added</p>)}
+        {projects.map((project) => {
+          const { uuid, name, description, field, is_favourite } = project;
+          return (
+            <div className="projects-item flexFont" key={uuid}>
+              <h2 className="project-name">{name}</h2>
+              <p className="project-details">{description}</p>
+              <div className="project-category">{field}</div>
+              <div className="project-footer">
+                <p className="project-creation">1 day go</p>
+                <div className="project-icons">
+                  <AiFillStar
+                    className="project-fav-icon"
+                    style={{
+                      color: is_favourite ? "yellow" : "var(--color-darkgrey)",
+                    }}
+                  />
+                  <BiCheckbox className="project-select-icon" />
+                </div>
+              </div>
             </div>
-          </div>
-        </div>
-
-        <div className="projects-item flexFont">
-          <h2 className='project-name'>Financial System</h2>
-          <ul className="project-details">
-            <li>Website Architecture</li>
-            <li>Web Design</li>
-          </ul>
-          <div className="project-footer">
-            <p className='project-creation'>1 day go</p>
-            <div className="project-icons">
-              <AiFillStar className='project-fav-icon' />
-              <BiCheckbox className='project-select-icon' />
-            </div>
-          </div>
-        </div>
-
-        <div className="projects-item flexFont">
-          <h2 className='project-name'>Financial System</h2>
-          <ul className="project-details">
-            <li>Website Architecture</li>
-            <li>Web Design</li>
-          </ul>
-          <div className="project-footer">
-            <p className='project-creation'>1 day go</p>
-            <div className="project-icons">
-              <AiFillStar className='project-fav-icon' />
-              <BiCheckbox className='project-select-icon' />
-            </div>
-          </div>
-        </div>
-
-        <div className="projects-item flexFont">
-          <h2 className='project-name'>Financial System</h2>
-          <ul className="project-details">
-            <li>Website Architecture</li>
-            <li>Web Design</li>
-          </ul>
-          <div className="project-footer">
-            <p className='project-creation'>1 day go</p>
-            <div className="project-icons">
-              <AiFillStar className='project-fav-icon' />
-              <BiCheckbox className='project-select-icon' />
-            </div>
-          </div>
-        </div>
-
+          );
+        })}
       </div>
     </div>
   )
