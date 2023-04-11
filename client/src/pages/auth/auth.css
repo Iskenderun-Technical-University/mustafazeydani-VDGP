@@ -13,7 +13,7 @@
     margin-bottom: 20px;
 }
 
-form {
+.auth form {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -36,9 +36,6 @@ form {
 .auth input {
     border: 2px solid transparent;
     padding: 0.5em 0.3em;
-}
-
-.auth input {
     border-bottom: 2px solid rgb(209, 209, 209) ;
 }
 

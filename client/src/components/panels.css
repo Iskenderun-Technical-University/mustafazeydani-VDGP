@@ -176,8 +176,8 @@
     align-items: center;
     gap: 0.7em;
     padding: .8em;
-    background-color: var(--color-primary);
-    color: var(--color-variant);
+    /* background-color: var(--color-primary);
+    color: var(--color-variant); */
 }
 
 .note-icons {

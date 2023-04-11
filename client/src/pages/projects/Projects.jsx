@@ -1,6 +1,7 @@
+import { useState } from 'react'
 import {
   BiCheckbox,
-  BiCheckboxChecked,
+  // BiCheckboxChecked,
 } from 'react-icons/bi'
 import {
   AiFillStar
@@ -10,7 +11,11 @@ import './projects.css'
 
 
 const Home = () => {
+  const [selectedOption, setSelectedOption] = useState("name")
 
+  const handleChange = (event) => {
+    setSelectedOption(event.target.value);
+  }
   return (
     <div className='projects'>
       <div className='top-bar'>
@@ -20,16 +25,16 @@ const Home = () => {
         </div>
         <div className="filter">
           <p className="filter-type">Category</p>
-          <select className='select'>
-            <option selected>By name</option>
+          <select value={selectedOption} onChange={handleChange} className='select'>
+            <option value='name'>By name</option>
             <option value='due-time'>By due time</option>
           </select>
         </div>
 
         <div className="filter">
           <p className="filter-type">Sort By</p>
-          <select className='select'>
-            <option selected>By name</option>
+          <select value={selectedOption} onChange={handleChange} className='select'>
+            <option value="name">By name</option>
             <option value='due-time'>By due time</option>
           </select>
         </div>

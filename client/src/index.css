@@ -31,18 +31,28 @@ a:hover {
 .btn {
     width: max-content;
     display: inline-block;
-    color: var(--color-variant);
+    color: var(--color-primary);
     padding: 0.5em 1.7em;
     border-radius: 0.5em;
     cursor: pointer;
     border: 2px solid var(--color-primary);
     transition: var(--transition);
-    background: var(--color-primary);
+    background: var(--color-variant);
+}
+
+.btn-main {
+  background-color: var(--color-primary);
+  color: var(--color-variant);
 }
 
 .btn:hover {
-    color: var(--color-primary);
-    background: var(--color-variant);
+    color: var(--color-variant);
+    background: var(--color-primary);
+}
+
+.btn-main:hover {
+    background: var(--color-darkgrey);
+    border-color: var(--color-darkgrey);
 }
 
 *::-webkit-scrollbar {
