@@ -15,7 +15,7 @@ import {
 import AddProject from './AddProject'
 import { AuthContext } from '../context/authContext'
 
-const Panels = () => {
+const Panels = ({ projects, setProjects }) => {
 
   const [showDialog, setShowDialog] = useState(false)
 
@@ -27,7 +27,7 @@ const Panels = () => {
 
   return (
     <div className='panels'>
-      {showDialog && <AddProject setShowDialog={setShowDialog} />}
+      {showDialog && <AddProject projects={projects} setProjects={setProjects} setShowDialog={setShowDialog} />}
       <div className="leftpanel">
         
         <div className="leftpanel-links">

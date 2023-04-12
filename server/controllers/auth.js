@@ -1,7 +1,6 @@
 import {db} from "../db.js"
 import bcrypt from "bcryptjs"
 import jwt from "jsonwebtoken";
-import { v4 as uuidv4 } from "uuid";
 
 export const register = (req,res)=>{
 
@@ -18,7 +17,7 @@ export const register = (req,res)=>{
 
         const q = "INSERT INTO users(`uuid`,`username`,`email`,`password`) VALUES(?)"
         const values = [
-            uuidv4(), 
+            req.body.uuid, 
             req.body.username, 
             req.body.email, 
             hash

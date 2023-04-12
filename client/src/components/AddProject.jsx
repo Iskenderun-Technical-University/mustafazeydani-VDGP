@@ -2,8 +2,9 @@ import React, { useState } from 'react'
 import "./addproject.css"
 import axios from 'axios'
 import moment from "moment"
+import { v4 as uuidv4 } from "uuid"
 
-function AddProject({ setShowDialog }) {
+function AddProject({ projects, setProjects, setShowDialog }) {
 
   const [inputs, setInputs] = useState({
     name:"",
@@ -26,15 +27,18 @@ function AddProject({ setShowDialog }) {
     e.preventDefault()
     
     try {
-      await axios.post("/projects", {
+      const requestData = {
+        uuid: uuidv4(),
         ...inputs,
-        creation_date: moment(Date.now()).format("YYYY-MM-DD HH:mm:ss")
-      })
+        creation_date: moment(Date.now()).format("YYYY-MM-DD HH:mm:ss"),
+        is_favourite: 0
+      }
+      const res = await axios.post("/projects", requestData)
+      setProjects([...projects, requestData])
     }
     catch (err) {
       setError(err.response.data)
     }
-    // Close dialog
     setShowDialog(false);
   }
   return (

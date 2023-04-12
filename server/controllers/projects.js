@@ -1,6 +1,5 @@
 import {db} from "../db.js"
 import jwt from "jsonwebtoken"
-import { v4 as uuidv4 } from "uuid";
 
 export const getProjects = (req, res)=>{
     const token = req.cookies.access_token
@@ -23,13 +22,13 @@ export const addProject = (req, res)=>{
         const q = "INSERT INTO projects VALUES(?)"
 
         const values = [
-            uuidv4(),
+            req.body.uuid,
             userInfo.uuid,
             req.body.name,
             req.body.field,
             req.body.description,
             req.body.creation_date,
-            0
+            req.body.is_favourite
         ]
         db.query(q, [values], (err, data)=>{
             if(err) return res.status(500).json(err)

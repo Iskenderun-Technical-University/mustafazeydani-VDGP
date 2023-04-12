@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import {
   BiCheckbox,
   // BiCheckboxChecked,
@@ -9,12 +9,9 @@ import {
 import {AiFillDelete} from 'react-icons/ai'
 import './projects.css'
 import axios from 'axios'
-import { AuthContext } from '../../context/authContext'
+import moment from 'moment'
 
-
-const Home = () => {
-
-  const [projects, setProjects] = useState([])
+const Projects = ({ projects, setProjects }) => {
 
   const [err, setError] = useState(null)
 
@@ -63,14 +60,14 @@ const Home = () => {
       <div className="projects-items">
         {err ? (<p>{err}</p>) : projects.length === 0 && (<p>No Projects Added</p>)}
         {projects.map((project) => {
-          const { uuid, name, description, field, is_favourite } = project;
+          const { uuid, name, description, field, creation_date, is_favourite } = project;
           return (
             <div className="projects-item flexFont" key={uuid}>
               <h2 className="project-name">{name}</h2>
               <p className="project-details">{description}</p>
               <div className="project-category">{field}</div>
               <div className="project-footer">
-                <p className="project-creation">1 day go</p>
+                <p className="project-creation">{moment(creation_date).fromNow()}</p>
                 <div className="project-icons">
                   <AiFillStar
                     className="project-fav-icon"
@@ -89,4 +86,4 @@ const Home = () => {
   )
 }
 
-export default Home
+export default Projects

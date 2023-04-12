@@ -6,16 +6,17 @@ import Login from "./pages/auth/Login";
 import "./index.css";
 import Panels from "./components/Panels";
 import NotFoundPage from "./components/NotFound";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { AuthContext } from "./context/authContext";
 
-const Layout = () => {
+
+const Layout = ({ projects, setProjects }) => {
   return (
     <>
-      <Panels />
-      <div className="outlet">
-        <Outlet />
-      </div>
+        <Panels projects={projects} setProjects={setProjects}/>
+        <div className="outlet">
+          <Outlet />
+        </div>
     </>
   )
 }
@@ -29,6 +30,9 @@ export const ProtectedRoute = ({ children }) => {
 }
 
 function App() {
+
+  const [projects, setProjects] = useState([])
+
   return (
     <div className="app">
       <div className="container">
@@ -37,10 +41,10 @@ function App() {
             <Route path="*" element={<NotFoundPage/>} />
             <Route path="/" element={
               <ProtectedRoute>
-                <Layout />
+                <Layout projects={projects} setProjects={setProjects}/>
               </ProtectedRoute>
             }>
-              <Route path="/" element={<Projects />} />
+              <Route path="/" element={<Projects projects={projects} setProjects={setProjects}/>} />
               <Route path="/tasks" element={<Tasks />} />
             </Route>
             <Route path="/register" element={<Register />} />

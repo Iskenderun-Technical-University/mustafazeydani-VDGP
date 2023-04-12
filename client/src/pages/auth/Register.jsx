@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import axios from "axios"
 import "./auth.css"
+import { v4 as uuidv4 } from "uuid"
 
 const Register = () => {
   const [inputs, setInputs] = useState({
@@ -43,9 +44,8 @@ const Register = () => {
             throw new Error("Password must contain at least one uppercase, lowecase and number")
 
           try {
-            const res = await axios.post("/auth/register", inputs)
+            const res = await axios.post("/auth/register", {uuid: uuidv4(), ...inputs})
             navigate("/login")
-            console.log(res)
           }
           catch(err) {
             setError(err.response.data)
