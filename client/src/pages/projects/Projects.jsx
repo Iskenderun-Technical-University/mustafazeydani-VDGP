@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import {
   BiCheckbox,
   // BiCheckboxChecked,
@@ -9,6 +9,7 @@ import {
 import {AiFillDelete} from 'react-icons/ai'
 import './projects.css'
 import axios from 'axios'
+import { AuthContext } from '../../context/authContext'
 
 
 const Home = () => {

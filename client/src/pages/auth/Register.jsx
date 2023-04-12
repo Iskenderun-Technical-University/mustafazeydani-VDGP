@@ -67,9 +67,24 @@ const Register = () => {
     <div className='auth'>
       <form>
         <h2>Register</h2>
-        <input type="text" placeholder='username' name='username' onChange={handleChange} required/>
-        <input type="email" placeholder='someone@example.com' name='email' onChange={handleChange} required/>
-        <input type="password" placeholder='password' name='password' onChange={handleChange} required/>
+        <input 
+          type="text" 
+          placeholder='username' 
+          name='username' 
+          onChange={handleChange}
+        />
+        <input 
+          type="email" 
+          placeholder='someone@example.com' 
+          name='email' 
+          onChange={handleChange}
+        />
+        <input 
+          type="password" 
+          placeholder='password' 
+          name='password' 
+          onChange={handleChange}
+        />
         <button onClick={handleSubmit} className='btn'>Register</button>
         {err && <p>{err}</p>}
         <span>Already have an account? <Link to="/login">Login instead</Link></span>

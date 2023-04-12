@@ -4,7 +4,7 @@ CREATE TABLE `projects`(
     `name` VARCHAR(25) NOT NULL,
     `field` VARCHAR(25) NOT NULL,
     `description` TEXT NOT NULL,
-    `creation_date` DATE NOT NULL,
+    `creation_date` DATETIME NOT NULL,
     `is_favourite` TINYINT(1) NOT NULL
 );
 

@@ -41,20 +41,33 @@
     gap: 1em;
     width: 90%;
     height: 100%;
-    margin: 2em auto;
+    margin: 0 auto 1.5em;
 }
 
 .add-project input {
-    border: 2px solid transparent;
+    border: 1px solid transparent;
     padding: 1em 1em;
-    border-bottom: 2px solid rgb(209, 209, 209) ;
+    border-bottom: 1px solid var(--color-darkgrey) ;
 }
+
+.add-project textarea {
+    padding: 10px;
+    font-size: 16px;
+    line-height: 1.5;
+    border: 1px solid var(--color-darkgrey);
+    border-radius: 4px;
+    resize: none;
+  }
 
 .add-project input:focus {
     outline: none;
-    border: 2px solid var(--color-primary);
-    box-shadow: 0 0 10px #719ECE;
 }
+
+.add-project input:focus, 
+.add-project textarea:focus {
+    border: 1px solid var(--color-primary);
+    box-shadow: 0 0 10px var(--color-primary);
+  }
 
 .add-project .modal-buttons {
     width: 100%;

@@ -11,7 +11,7 @@ const router = express.Router()
 
 router.get("/", getProjects)
 // router.get("/:id", getProject)
-// router.post("/", addProject)
+router.post("/", addProject)
 // router.delete("/:id", deleteProject)
 // router.put("/:id", updateProject)
 

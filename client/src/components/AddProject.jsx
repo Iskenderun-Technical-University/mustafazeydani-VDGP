@@ -1,22 +1,39 @@
 import React, { useState } from 'react'
 import "./addproject.css"
+import axios from 'axios'
+import moment from "moment"
 
 function AddProject({ setShowDialog }) {
 
-  const [selectedOption, setSelectedOption] = useState("")
+  const [inputs, setInputs] = useState({
+    name:"",
+    field:"",
+    description:""
+  })
 
-  const handleChange = (event) => {
-    setSelectedOption(event.target.value);
+  const [err, setError] = useState(null)
+
+
+  const handleChange = (e) => {
+    setInputs(prev=>({...prev, [e.target.name]: e.target.value}))
   }
 
   const handleCancelClick = () =>{
     setShowDialog(false)
   }
 
-  const handleSaveClick = () => {
-    // Save project details
-    // ...
+  const handleSubmit = async e => {
+    e.preventDefault()
     
+    try {
+      await axios.post("/projects", {
+        ...inputs,
+        creation_date: moment(Date.now()).format("YYYY-MM-DD HH:mm:ss")
+      })
+    }
+    catch (err) {
+      setError(err.response.data)
+    }
     // Close dialog
     setShowDialog(false);
   }
@@ -26,17 +43,31 @@ function AddProject({ setShowDialog }) {
         <form>
           <h2>Create a project</h2>
           <div className="modal-content">
-            <label htmlFor="project-name">Project Name</label>
-            <input id="project-name" type="text" placeholder="project name"/>
+            <label htmlFor="projectname">Project Name</label>
+            <input
+              name="name" 
+              onChange={handleChange} 
+              id="projectname" 
+              type="text" 
+              placeholder="Project name" 
+            />
             <p>Select project's field</p>
-            <select value={selectedOption} onChange={handleChange} className='select'>
+            <select name="field" onChange={handleChange}>
               <option value="">-- Select an option --</option>
-              <option value='web'>Web Development</option>
-              <option value='due-time'>By due time</option>
+              <option value='Web Development'>Web Development</option>
+              <option value='Cyber Security'>Cyber Security</option>
             </select>
+            <p>Description</p>
+            <textarea 
+              name="description" 
+              onChange={handleChange}
+              rows="4"
+              placeholder="Enter description..."
+            />
+
             <div className="modal-buttons">
               <button className='btn' onClick={handleCancelClick}>Cancel</button>
-              <button className='btn btn-main' onClick={handleSaveClick}>Add</button>
+              <button className='btn btn-main' onClick={handleSubmit}>Add</button>
             </div>
           </div>
         </form>
