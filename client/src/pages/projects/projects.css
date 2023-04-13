@@ -4,6 +4,13 @@
     overflow-y: auto;
 }
 
+.projects .error {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+}
+
 .projects .select {
     background: transparent;
 }
@@ -32,13 +39,6 @@
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
     gap: 1em;
-}
-
-.projects-items p {
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
 }
 
 .projects-item {
@@ -105,11 +105,16 @@
     color: rgb(171, 170, 170)
 }
 
-.project-select-icon {
+.project-checkbox {
     color: var(--color-primary);
 }
 
-.project-select-icon:hover {
+.project-checkbox:hover,
+.project-delete-icon:hover {
     color: var(--color-darkgrey);
     cursor: pointer;
+}
+
+.checkbox-main {
+    color: black;
 }

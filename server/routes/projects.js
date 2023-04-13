@@ -12,7 +12,7 @@ const router = express.Router()
 router.get("/", getProjects)
 // router.get("/:id", getProject)
 router.post("/", addProject)
-// router.delete("/:id", deleteProject)
+router.delete("/", deleteProject)
 // router.put("/:id", updateProject)
 
 export default router

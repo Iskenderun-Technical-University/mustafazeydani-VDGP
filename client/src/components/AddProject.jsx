@@ -33,7 +33,7 @@ function AddProject({ projects, setProjects, setShowDialog }) {
         creation_date: moment(Date.now()).format("YYYY-MM-DD HH:mm:ss"),
         is_favourite: 0
       }
-      const res = await axios.post("/projects", requestData)
+      await axios.post("/projects", requestData)
       setProjects([...projects, requestData])
     }
     catch (err) {

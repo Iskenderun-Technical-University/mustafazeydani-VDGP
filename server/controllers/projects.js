@@ -37,14 +37,20 @@ export const addProject = (req, res)=>{
     })
 }
 
+export const deleteProject = (req, res)=>{
+    const q = "DELETE FROM projects WHERE uuid IN (?)"
+    db.query(q, [req.query.uuids], (err, data)=>{
+        if(err) return res.status(500).json(err)
+        return res.json("Project has been deleted!")
+    })
+}
+
 
 export const getProject = (req, res)=>{
 
 }
 
-export const deleteProject = (req, res)=>{
 
-}
 export const updateProject = (req, res)=>{
 
 }
