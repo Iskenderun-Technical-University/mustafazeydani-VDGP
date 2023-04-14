@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import "./addproject.css"
+import "../common.css"
 import axios from 'axios'
 import moment from "moment"
 import { v4 as uuidv4 } from "uuid"
@@ -14,7 +15,6 @@ function AddProject({ projects, setProjects, setShowDialog }) {
 
   const [err, setError] = useState(null)
 
-
   const handleChange = (e) => {
     setInputs(prev=>({...prev, [e.target.name]: e.target.value}))
   }
@@ -25,7 +25,6 @@ function AddProject({ projects, setProjects, setShowDialog }) {
 
   const handleSubmit = async e => {
     e.preventDefault()
-    
     try {
       const requestData = {
         uuid: uuidv4(),
@@ -41,8 +40,9 @@ function AddProject({ projects, setProjects, setShowDialog }) {
     }
     setShowDialog(false);
   }
+
   return (
-    <div className='add-project'>
+    <div className='add-project modal-back'>
       <div className="modal">
         <form>
           <h2>Create a project</h2>

@@ -1,8 +1,8 @@
 import React, { useState ,useContext } from 'react'
 import './panels.css'
 import { Link } from 'react-router-dom'
-import Logo from '../assets/logo.svg'
-import User from '../assets/user.svg'
+import Logo from '../../assets/logo.svg'
+import User from '../../assets/user.svg'
 import {
   AiOutlineUser, 
   AiFillDelete, 
@@ -12,22 +12,23 @@ import {
 import {
   ImExit
 } from 'react-icons/im'
-import AddProject from './AddProject'
-import { AuthContext } from '../context/authContext'
+import AddProject from '../modals/AddProject/AddProject'
+import { AuthContext } from '../../context/authContext'
+
 
 const Panels = ({ projects, setProjects }) => {
 
-  const [showDialog, setShowDialog] = useState(false)
-
+  const [showAddProject, setShowAddProject] = useState(false)
+  
   const handleCreateProjectClick = () => {
-    setShowDialog(true);
+    setShowAddProject(true)
   }
 
   const { currentUser, logout } = useContext(AuthContext)
 
   return (
     <div className='panels'>
-      {showDialog && <AddProject projects={projects} setProjects={setProjects} setShowDialog={setShowDialog} />}
+      {showAddProject && <AddProject projects={projects} setProjects={setProjects} setShowDialog={setShowAddProject} />}
       <div className="leftpanel">
         
         <div className="leftpanel-links">

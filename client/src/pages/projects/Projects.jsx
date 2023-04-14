@@ -5,6 +5,7 @@ import { AiFillDelete } from "react-icons/ai"
 import "./projects.css"
 import axios from "axios"
 import moment from "moment"
+import ConfirmDelete from "../../components/modals/ConfirmDelete/ConfirmDelete"
 
 const Projects = ({ projects, setProjects }) => {
   
@@ -47,18 +48,6 @@ const Projects = ({ projects, setProjects }) => {
     })
   }
 
-  const handleDelete = async () => {
-    try{
-      await axios.delete("/projects", {params: { uuids: selectedProjects }})
-      setProjects((prevProjects) =>
-        prevProjects.filter((project) => !selectedProjects.includes(project.uuid))
-      )
-    }
-    catch(err) {
-      setError(err.response.message)
-    }
-  }
-
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -77,8 +66,21 @@ const Projects = ({ projects, setProjects }) => {
     setSelectedOption(event.target.value)
   }
 
+  const [showConfirmDelete, setShowConfirmDelete] = useState(false)
+  const handleDeleteButtonClick = () => {
+    if(selectedProjects.length!==0)
+      setShowConfirmDelete(true)
+  }
+
   return (
     <div className="projects">
+      {showConfirmDelete && 
+      <ConfirmDelete 
+        setProjects={setProjects} 
+        selectedProjects={selectedProjects} 
+        setShowConfirmDelete={setShowConfirmDelete} 
+      />
+      }
       <div className="top-bar">
         <div className="top-bar-icons">
           {!areAllSelected ? (
@@ -93,7 +95,7 @@ const Projects = ({ projects, setProjects }) => {
             />
           )}
           <AiFillDelete 
-            onClick={handleDelete} 
+            onClick={handleDeleteButtonClick} 
             className="project-delete-icon"
           />
         </div>

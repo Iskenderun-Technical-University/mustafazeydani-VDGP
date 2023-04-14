@@ -4,7 +4,7 @@ import Tasks from "./pages/tasks/Tasks";
 import Register from "./pages/auth/Register";
 import Login from "./pages/auth/Login";
 import "./index.css";
-import Panels from "./components/Panels";
+import Panels from "./components/Panels/Panels";
 import NotFoundPage from "./components/NotFound";
 import { useContext, useState, useEffect } from "react";
 import { AuthContext } from "./context/authContext";

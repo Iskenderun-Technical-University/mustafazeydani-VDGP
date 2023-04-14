@@ -1,0 +1,19 @@
+.confirm-delete .modal {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    width: 500px;
+    aspect-ratio: 3;
+    border-radius: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); /* shadow effect */
+    z-index: 3;
+}
+
+.confirm-delete p {
+    margin-top: 1em;
+    font-size: 1.2em;
+    text-align: center;
+}
+
