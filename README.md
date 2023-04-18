@@ -1,4 +1,3 @@
-
 # TaskMate
 TaskMate is a web application built with React.js, Node.js, and Express.js for managing individual projects. The application provides an intuitive interface for creating, updating, and deleting projects and tasks. Users can also filter and sort them by various criteria, add projects to favourites and mark tasks as done.
 
@@ -41,7 +40,9 @@ git clone https://github.com/Iskenderun-Technical-University/mustafazeydani-VDGP
 2- Install the dependencies:
 
 ```bash
-cd mustafazeydani-VDGP
+cd mustafazeydani-VDGP/client
+npm install
+cd ../server
 npm install
 ```
 
