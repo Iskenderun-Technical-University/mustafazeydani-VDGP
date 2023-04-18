@@ -3,7 +3,7 @@ import React from 'react'
 import "./confirmdelete.css"
 import "../common.css"
 
-function ConfirmDelete({setProjects, selectedProjects, setShowConfirmDelete, setError}) {
+function ConfirmDelete({setProjects, selectedProjects, setShowConfirmDelete, setAreAllSelected, setError}) {
 
   const handleCancelClick = () =>{
     setShowConfirmDelete(false)
@@ -20,6 +20,7 @@ function ConfirmDelete({setProjects, selectedProjects, setShowConfirmDelete, set
       setError(err.response.message)
     }
     setShowConfirmDelete(false)
+    setAreAllSelected(false)
   }
   
   return (

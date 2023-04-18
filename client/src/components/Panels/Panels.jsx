@@ -16,7 +16,7 @@ import AddProject from '../modals/AddProject/AddProject'
 import { AuthContext } from '../../context/authContext'
 
 
-const Panels = ({ projects, setProjects }) => {
+const Panels = ({ projects, setProjects}) => {
 
   const [showAddProject, setShowAddProject] = useState(false)
   

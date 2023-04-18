@@ -1,24 +1,33 @@
+import { useNavigate } from "react-router-dom"
 import { useEffect, useState } from "react"
 import { BiCheckbox, BiCheckboxChecked } from "react-icons/bi"
 import { AiFillStar } from "react-icons/ai"
 import { AiFillDelete } from "react-icons/ai"
+import Loader from "../../components/loader/Loader"
 import "./projects.css"
 import axios from "axios"
 import moment from "moment"
 import ConfirmDelete from "../../components/modals/ConfirmDelete/ConfirmDelete"
 
-const Projects = ({ projects, setProjects }) => {
-  
+const Projects = ({
+  projects,
+  setProjects,
+  selectedProjects,
+  setSelectedProjects,
+  fetching,
+  setFetching,
+}) => {
+  const navigate = useNavigate()
+
   const [err, setError] = useState(null)
   const [areAllSelected, setAreAllSelected] = useState(false)
   const [toggledCheckboxes, setToggledCheckboxes] = useState({})
-  const [selectedProjects, setSelectedProjects] = useState([])
 
   const handleSelectAll = () => {
-    const allUuids = projects.map((project) => project.uuid);
+    const allUuids = projects.map((project) => project.uuid)
     const isAllSelected = allUuids.every((uuid) =>
       selectedProjects.includes(uuid)
-    )
+    );
 
     if (isAllSelected) {
       setToggledCheckboxes({})
@@ -28,74 +37,81 @@ const Projects = ({ projects, setProjects }) => {
       const toggledState = allUuids.reduce((acc, uuid) => {
         acc[uuid] = true
         return acc
-      }, {});
-      setToggledCheckboxes(toggledState);
+      }, {})
+      setToggledCheckboxes(toggledState)
       setSelectedProjects(allUuids)
       setAreAllSelected(true)
     }
   }
 
-  const handleSelect = (uuid) => {
-    setToggledCheckboxes((prevState) => ({
-      ...prevState,
-      [uuid]: !prevState[uuid],
-    }))
-
-    setSelectedProjects((prevSelectedProjects) => {
-      if (prevSelectedProjects.includes(uuid))
-        return prevSelectedProjects.filter((id) => id !== uuid)
-      else return [...prevSelectedProjects, uuid]
-    })
+  const handleSelect = (e, uuid) => {
+    if (
+      e.target.className.baseVal === "project-checkbox" ||
+      e.target.className.baseVal === ""
+    ) {
+      setToggledCheckboxes((prevState) => ({
+        ...prevState,
+        [uuid]: !prevState[uuid],
+      }))
+      setSelectedProjects((prevSelectedProjects) => {
+        if (prevSelectedProjects.includes(uuid))
+          return prevSelectedProjects.filter((id) => id !== uuid)
+        else return [...prevSelectedProjects, uuid]
+      })
+    } else {
+      navigate(`/${uuid}`)
+    }
   }
 
   useEffect(() => {
+    setFetching(true)
     const fetchData = async () => {
       try {
         const res = await axios.get("/projects")
         setProjects(res.data)
-      } 
-      catch(err) {
+      } catch (err) {
         setError("Error fetching projects")
       }
+      setFetching(false)
     }
     fetchData()
   }, [setProjects])
 
-  const [selectedOption, setSelectedOption] = useState("name");
+  const [selectedOption, setSelectedOption] = useState("name")
   const handleChange = (event) => {
     setSelectedOption(event.target.value)
-  }
+  };
 
   const [showConfirmDelete, setShowConfirmDelete] = useState(false)
   const handleDeleteButtonClick = () => {
-    if(selectedProjects.length!==0)
-      setShowConfirmDelete(true)
-  }
+    if (selectedProjects.length !== 0) setShowConfirmDelete(true)
+  };
 
   return (
     <div className="projects">
-      {showConfirmDelete && 
-      <ConfirmDelete 
-        setProjects={setProjects} 
-        selectedProjects={selectedProjects} 
-        setShowConfirmDelete={setShowConfirmDelete} 
-      />
-      }
+      {showConfirmDelete && (
+        <ConfirmDelete
+          setProjects={setProjects}
+          selectedProjects={selectedProjects}
+          setShowConfirmDelete={setShowConfirmDelete}
+          setAreAllSelected={setAreAllSelected}
+        />
+      )}
       <div className="top-bar">
         <div className="top-bar-icons">
           {!areAllSelected ? (
-            <BiCheckbox 
-              onClick={handleSelectAll} 
+            <BiCheckbox
+              onClick={handleSelectAll}
               className="project-checkbox checkbox-main"
             />
           ) : (
-            <BiCheckboxChecked 
-              onClick={handleSelectAll} 
+            <BiCheckboxChecked
+              onClick={handleSelectAll}
               className="project-checkbox checkbox-main"
             />
           )}
-          <AiFillDelete 
-            onClick={handleDeleteButtonClick} 
+          <AiFillDelete
+            onClick={handleDeleteButtonClick}
             className="project-delete-icon"
           />
         </div>
@@ -124,7 +140,9 @@ const Projects = ({ projects, setProjects }) => {
         </div>
       </div>
       <div className="projects-items">
-        {err ? (
+        {fetching ? (
+          <Loader />
+        ) : err ? (
           <p className="error">{err}</p>
         ) : (
           projects.length === 0 && <p className="error">No Projects Added</p>
@@ -140,7 +158,11 @@ const Projects = ({ projects, setProjects }) => {
           } = project;
           const isCheckboxToggled = !toggledCheckboxes[uuid];
           return (
-            <div className="projects-item flexFont" key={uuid}>
+            <div
+              className="projects-item flexFont"
+              key={uuid}
+              onClick={(e) => handleSelect(e, uuid)}
+            >
               <h2 className="project-name">{name}</h2>
               <p className="project-details">{description}</p>
               <div className="project-category">{field}</div>
@@ -156,24 +178,18 @@ const Projects = ({ projects, setProjects }) => {
                     }}
                   />
                   {isCheckboxToggled ? (
-                    <BiCheckbox
-                      onClick={() => handleSelect(uuid)}
-                      className="project-checkbox"
-                    />
+                    <BiCheckbox className="project-checkbox" />
                   ) : (
-                    <BiCheckboxChecked
-                      onClick={() => handleSelect(uuid)}
-                      className="project-checkbox"
-                    />
+                    <BiCheckboxChecked className="project-checkbox" />
                   )}
                 </div>
               </div>
             </div>
-          );
+          )
         })}
       </div>
     </div>
   )
 }
 
-export default Projects;
+export default Projects

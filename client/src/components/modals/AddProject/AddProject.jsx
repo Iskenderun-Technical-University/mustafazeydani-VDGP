@@ -5,15 +5,12 @@ import axios from 'axios'
 import moment from "moment"
 import { v4 as uuidv4 } from "uuid"
 
-function AddProject({ projects, setProjects, setShowDialog }) {
-
+function AddProject({ projects, setProjects, setShowDialog, setAreAllSelected}) {
   const [inputs, setInputs] = useState({
     name:"",
     field:"",
     description:""
   })
-
-  const [err, setError] = useState(null)
 
   const handleChange = (e) => {
     setInputs(prev=>({...prev, [e.target.name]: e.target.value}))
@@ -35,10 +32,11 @@ function AddProject({ projects, setProjects, setShowDialog }) {
       await axios.post("/projects", requestData)
       setProjects([...projects, requestData])
     }
-    catch (err) {
-      setError(err.response.data)
+    catch(err) {
+      //
     }
-    setShowDialog(false);
+    setShowDialog(false)
+    setAreAllSelected(false)
   }
 
   return (

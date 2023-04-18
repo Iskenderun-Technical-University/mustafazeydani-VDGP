@@ -3,6 +3,7 @@ import Projects from "./pages/projects/Projects";
 import Tasks from "./pages/tasks/Tasks";
 import Register from "./pages/auth/Register";
 import Login from "./pages/auth/Login";
+import Single from "./pages/single/Single";
 import "./index.css";
 import Panels from "./components/Panels/Panels";
 import NotFoundPage from "./components/NotFound";
@@ -47,6 +48,8 @@ function App() {
   }, [])
 
   const [projects, setProjects] = useState([])
+  const [fetching, setFetching] = useState(true)
+  const [selectedProjects, setSelectedProjects] = useState([])
 
   return (
     <div className="app">
@@ -59,8 +62,21 @@ function App() {
                 <Layout projects={projects} setProjects={setProjects}/>
               </ProtectedRoute>
             }>
-              <Route path="/" element={<Projects projects={projects} setProjects={setProjects}/>} />
+              <Route 
+                path="/" 
+                element={
+                  <Projects 
+                    projects={projects} 
+                    setProjects={setProjects} 
+                    selectedProjects={selectedProjects} 
+                    setSelectedProjects={setSelectedProjects} 
+                    fetching={fetching} 
+                    setFetching={setFetching}
+                  />
+                }
+              />
               <Route path="/tasks" element={<Tasks />} />
+              <Route path="/:id" element={<Single/>} />
             </Route>
               <Route path="/register" element={<Register />} />
               <Route path="/login" element={<Login />} />
