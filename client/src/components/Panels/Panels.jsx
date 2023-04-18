@@ -47,7 +47,7 @@ const Panels = ({ projects, setProjects}) => {
 
       <div className="upperpanel">
         <div className="upperpanel-links">
-          <Link to="/" className='link'>My Projects</Link>
+          <Link to="/projects" className='link'>My Projects</Link>
           <Link to="/tasks" className='link'>My Tasks</Link>
         </div>
         <a className="btn" onClick={handleCreateProjectClick}>Create New Project</a>

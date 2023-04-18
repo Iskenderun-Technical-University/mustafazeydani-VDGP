@@ -27,10 +27,11 @@ CREATE TABLE `tasks`(
     `uuid` VARCHAR(36) NOT NULL,
     `user_uuid` VARCHAR(36) NOT NULL,
     `project_uuid` VARCHAR(36) NOT NULL,
+    `task` VARCHAR(100) NOT NULL,
     `deadline` DATE NOT NULL,
+    `priority` VARCHAR(25) NOT NULL,
     `status` VARCHAR(25) NOT NULL,
     `project_name` VARCHAR(25) NOT NULL,
-    `priority` VARCHAR(25) NOT NULL,
     `is_done` TINYINT(1) NOT NULL
 );
 

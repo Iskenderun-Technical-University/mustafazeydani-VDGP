@@ -1,0 +1,39 @@
+.add-task .modal {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    width: 500px;
+    aspect-ratio: 1;
+    border-radius: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); /* shadow effect */
+    z-index: 3;
+}
+
+.add-task form {
+    height: 100%;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+}
+
+.add-task h2 {
+    color: var(--color-primary);
+    text-align: center;
+    margin: 1em;
+}
+
+.add-task input[type="text"] {
+    border: 1px solid transparent;
+    padding: 1em 1em;
+    border-bottom: 1px solid var(--color-darkgrey) ;
+}
+
+.add-task input[type="text"]:focus {
+    outline: none;
+    border: 1px solid var(--color-primary);
+    box-shadow: 0 0 10px var(--color-primary);
+}
+
+

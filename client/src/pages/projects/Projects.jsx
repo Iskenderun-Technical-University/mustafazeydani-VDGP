@@ -44,10 +44,9 @@ const Projects = ({
     }
   }
 
-  const handleSelect = (e, uuid) => {
+  const handleSelect = (e, uuid, name) => {
     if (
-      e.target.className.baseVal === "project-checkbox" ||
-      e.target.className.baseVal === ""
+      e.target.dataset.id==="checkbox"
     ) {
       setToggledCheckboxes((prevState) => ({
         ...prevState,
@@ -59,7 +58,7 @@ const Projects = ({
         else return [...prevSelectedProjects, uuid]
       })
     } else {
-      navigate(`/${uuid}`)
+      navigate(`/projects/${uuid}`, { state: { project_uuid: uuid, project_name: name } })
     }
   }
 
@@ -75,7 +74,7 @@ const Projects = ({
       setFetching(false)
     }
     fetchData()
-  }, [setProjects])
+  }, [setProjects, setFetching])
 
   const [selectedOption, setSelectedOption] = useState("name")
   const handleChange = (event) => {
@@ -140,7 +139,7 @@ const Projects = ({
         </div>
       </div>
       <div className="projects-items">
-        {fetching ? (
+        {fetching && projects.length===0 ? (
           <Loader />
         ) : err ? (
           <p className="error">{err}</p>
@@ -161,7 +160,7 @@ const Projects = ({
             <div
               className="projects-item flexFont"
               key={uuid}
-              onClick={(e) => handleSelect(e, uuid)}
+              onClick={(e) => handleSelect(e, uuid, name)}
             >
               <h2 className="project-name">{name}</h2>
               <p className="project-details">{description}</p>
@@ -178,9 +177,9 @@ const Projects = ({
                     }}
                   />
                   {isCheckboxToggled ? (
-                    <BiCheckbox className="project-checkbox" />
+                    <BiCheckbox data-id="checkbox" className="project-checkbox" />
                   ) : (
-                    <BiCheckboxChecked className="project-checkbox" />
+                    <BiCheckboxChecked data-id="checkbox" className="project-checkbox" />
                   )}
                 </div>
               </div>

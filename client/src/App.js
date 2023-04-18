@@ -1,4 +1,5 @@
 import { BrowserRouter as Router, Routes, Route, Outlet, Navigate } from "react-router-dom";
+import Home from "./pages/home/Home";
 import Projects from "./pages/projects/Projects";
 import Tasks from "./pages/tasks/Tasks";
 import Register from "./pages/auth/Register";
@@ -62,8 +63,9 @@ function App() {
                 <Layout projects={projects} setProjects={setProjects}/>
               </ProtectedRoute>
             }>
+              <Route path="/" element={<Home />}/>
               <Route 
-                path="/" 
+                path="/projects" 
                 element={
                   <Projects 
                     projects={projects} 
@@ -76,7 +78,7 @@ function App() {
                 }
               />
               <Route path="/tasks" element={<Tasks />} />
-              <Route path="/:id" element={<Single/>} />
+              <Route path="/projects/:id" element={<Single fetching={fetching} setFetching={setFetching}/>} />
             </Route>
               <Route path="/register" element={<Register />} />
               <Route path="/login" element={<Login />} />
