@@ -40,13 +40,12 @@ export const addTask = (req, res)=>{
 }
 
 export const deleteTask = (req, res)=>{
-
+    const q = "DELETE FROM tasks WHERE uuid = (?)"
+    db.query(q, [req.query.uuid], (err, data)=>{
+        if(err) return res.status(500).json(err)
+        return res.json("Task has been deleted!")
+    })
 }
-
-export const getTask = (req, res)=>{
-
-}
-
 
 export const updateTask = (req, res)=>{
 

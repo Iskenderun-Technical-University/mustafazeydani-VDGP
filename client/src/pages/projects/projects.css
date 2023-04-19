@@ -95,6 +95,15 @@
     color: var(--color-darkgrey);
 }
 
+.projects-item button {
+    border: none;
+    background: none;
+    outline: none;
+    line-height: 50%;
+    font-size: 1em;
+    color: var(--color-primary);
+}
+
 .project-icons {
     display: flex;
     align-items: center;
@@ -106,10 +115,10 @@
 }
 
 .project-checkbox {
-    color: var(--color-primary);
+    pointer-events: none;
 }
 
-.project-checkbox:hover,
+.projects-item button:hover,
 .project-delete-icon:hover {
     color: var(--color-darkgrey);
     cursor: pointer;

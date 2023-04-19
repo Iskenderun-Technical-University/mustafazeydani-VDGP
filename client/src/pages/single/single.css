@@ -63,14 +63,22 @@
     margin-right: auto;
 } 
 
-.single .icon {
+.task button {
+    border: none;
+    background: none;
+    outline: none;
     font-size: 1.3em;
     color: var(--color-variant);
+    line-height: 50%;
 }
 
-.single .icon:hover {
+.task button:hover {
     color: var(--color-darkgrey);
     cursor: pointer;
+}
+
+.single .icon {
+    pointer-events: none;
 }
 
 /****** Task Section ******/
@@ -96,3 +104,4 @@
     top: 50%;
     transform: translate(-50%, -50%);
 }
+

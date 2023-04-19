@@ -5,6 +5,7 @@ import { MdStart, MdDelete } from "react-icons/md";
 import { AiOutlineArrowLeft } from "react-icons/ai";
 import axios from "axios";
 import "./single.css";
+import ConfirmDelete from "../../components/modals/ConfirmDelete/ConfirmDelete";
 import Loader from "../../components/loader/Loader";
 
 function Single({ fetching, setFetching }) {
@@ -13,20 +14,22 @@ function Single({ fetching, setFetching }) {
 
   const [err, setError] = useState(null);
   const [tasks, setTasks] = useState([]);
-  const [clickedItem, setClickedItem] = useState(null);
+  const [clickedItem, setClickedItem] = useState(false);
   const [showAddTask, setShowAddTask] = useState(false);
+  const [showConfirmDelete, setShowConfirmDelete] = useState(false);
+  const [taskUuid, setTaskToDelete] = useState(null);
 
   const handleAddTask = () => {
     setShowAddTask(true);
   };
 
   const handleClick = (e, uuid) => {
-    console.log(e.target.dataset.id)
     if(e.target.dataset.id==="delete-task") { // Delete Task
-      
+      setTaskToDelete(uuid)
+      setShowConfirmDelete(true)
     }
     else if(e.target.dataset.id==="to-in-progress") {
-      console.log("move")
+
     }
     else {
       if (!clickedItem) {
@@ -52,6 +55,16 @@ function Single({ fetching, setFetching }) {
 
   return (
     <div className="single">
+      {
+        showConfirmDelete &&
+        <ConfirmDelete
+          setShowConfirmDelete={setShowConfirmDelete}
+          taskUuid={taskUuid}
+          setError={setError}
+          setTasks={setTasks}
+          type={"task"}
+        />
+      }
       {showAddTask && (
         <AddTask
           setShowAddTask={setShowAddTask}
@@ -107,8 +120,8 @@ function Single({ fetching, setFetching }) {
               return (
                 <div className="task" key={uuid} onClick={(e)=>handleClick(e, uuid)}>
                   <p className="task-name">{task}</p>
-                  <MdDelete data-id="delete-task" className="icon" onClick={handleClick}/>
-                  <MdStart data-id="to-in-progress" className="icon" onClick={handleClick}/>
+                  <button data-id="delete-task"><MdDelete className="icon"/></button>
+                  <button data-id="to-in-progress"><MdStart className="icon"/></button>
                 </div>
               );
             })

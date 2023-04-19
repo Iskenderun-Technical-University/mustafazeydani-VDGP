@@ -94,6 +94,7 @@ const Projects = ({
           selectedProjects={selectedProjects}
           setShowConfirmDelete={setShowConfirmDelete}
           setAreAllSelected={setAreAllSelected}
+          type={"project"}
         />
       )}
       <div className="top-bar">
@@ -170,16 +171,10 @@ const Projects = ({
                   {moment(creation_date).fromNow()}
                 </p>
                 <div className="project-icons">
-                  <AiFillStar
-                    className="project-fav-icon"
-                    style={{
-                      color: is_favourite ? "yellow" : "var(--color-darkgrey)",
-                    }}
-                  />
                   {isCheckboxToggled ? (
-                    <BiCheckbox data-id="checkbox" className="project-checkbox" />
+                    <button data-id="checkbox"><BiCheckbox className="project-checkbox" /></button>
                   ) : (
-                    <BiCheckboxChecked data-id="checkbox" className="project-checkbox" />
+                    <button data-id="checkbox"><BiCheckboxChecked className="project-checkbox" /></button> 
                   )}
                 </div>
               </div>

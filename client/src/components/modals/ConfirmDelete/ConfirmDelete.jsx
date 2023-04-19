@@ -3,24 +3,40 @@ import React from 'react'
 import "./confirmdelete.css"
 import "../common.css"
 
-function ConfirmDelete({setProjects, selectedProjects, setShowConfirmDelete, setAreAllSelected, setError}) {
+function ConfirmDelete({
+  setTasks, taskUuid, // Tasks 
+  setProjects, selectedProjects, setAreAllSelected, // Projects
+  setError, setShowConfirmDelete, type // Common
+}) {
 
   const handleCancelClick = () =>{
     setShowConfirmDelete(false)
   }
 
   const handleSubmit = async e => {
-    try{
-      await axios.delete("/projects", {params: { uuids: selectedProjects }})
-      setProjects((prevProjects) =>
-        prevProjects.filter((project) => !selectedProjects.includes(project.uuid))
-      )
+    if(type==="project") { // delete project
+      try{
+        await axios.delete("/projects", {params: { uuids: selectedProjects }})
+        setProjects((prevProjects) =>
+          prevProjects.filter((project) => !selectedProjects.includes(project.uuid))
+        )
+      }
+      catch(err) {
+        setError(err.response.message)
+      }
+      setAreAllSelected(false)
     }
-    catch(err) {
-      setError(err.response.message)
+    
+    else if(type==="task") { // delete task
+      try{
+        await axios.delete("/tasks", {params: { uuid: taskUuid }})
+        setTasks((prevTasks) => prevTasks.filter((task) => task.uuid !== taskUuid))
+      }
+      catch(err) {
+        setError(err.response.message)
+      }
     }
     setShowConfirmDelete(false)
-    setAreAllSelected(false)
   }
   
   return (
