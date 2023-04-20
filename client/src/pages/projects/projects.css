@@ -114,11 +114,11 @@
     color: rgb(171, 170, 170)
 }
 
-.project-checkbox {
+.no-event {
     pointer-events: none;
 }
 
-.projects-item button:hover,
+.projects .checkbox:hover,
 .project-delete-icon:hover {
     color: var(--color-darkgrey);
     cursor: pointer;

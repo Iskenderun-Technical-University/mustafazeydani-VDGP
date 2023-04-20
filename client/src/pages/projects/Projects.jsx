@@ -102,12 +102,12 @@ const Projects = ({
           {!areAllSelected ? (
             <BiCheckbox
               onClick={handleSelectAll}
-              className="project-checkbox checkbox-main"
+              className="checkbox checkbox-main"
             />
           ) : (
             <BiCheckboxChecked
               onClick={handleSelectAll}
-              className="project-checkbox checkbox-main"
+              className="checkbox checkbox-main"
             />
           )}
           <AiFillDelete
@@ -172,9 +172,9 @@ const Projects = ({
                 </p>
                 <div className="project-icons">
                   {isCheckboxToggled ? (
-                    <button data-id="checkbox"><BiCheckbox className="project-checkbox" /></button>
+                    <button className="checkbox" data-id="checkbox"><BiCheckbox className="no-event" /></button>
                   ) : (
-                    <button data-id="checkbox"><BiCheckboxChecked className="project-checkbox" /></button> 
+                    <button className="checkbox" data-id="checkbox"><BiCheckboxChecked className="no-event" /></button> 
                   )}
                 </div>
               </div>
