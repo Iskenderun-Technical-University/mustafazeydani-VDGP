@@ -4,8 +4,7 @@ CREATE TABLE `projects`(
     `name` VARCHAR(25) NOT NULL,
     `field` VARCHAR(25) NOT NULL,
     `description` TEXT NOT NULL,
-    `creation_date` DATETIME NOT NULL,
-    `is_favourite` TINYINT(1) NOT NULL
+    `creation_date` DATETIME NOT NULL
 );
 
 ALTER TABLE `projects`
@@ -31,8 +30,7 @@ CREATE TABLE `tasks`(
     `deadline` DATE NOT NULL,
     `priority` VARCHAR(25) NOT NULL,
     `status` VARCHAR(25) NOT NULL,
-    `project_name` VARCHAR(25) NOT NULL,
-    `is_done` TINYINT(1) NOT NULL
+    `project_name` VARCHAR(25) NOT NULL
 );
 
 ALTER TABLE `tasks`

@@ -32,8 +32,7 @@ function AddTask({
         project_uuid: project_uuid,
         ...inputs,
         status: "Waiting",
-        project_name: project_name,
-        is_done: 0,
+        project_name: project_name
       };
       await axios.post("/tasks", requestData);
       setTasks([...tasks, requestData]);

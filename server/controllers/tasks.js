@@ -28,8 +28,7 @@ export const addTask = (req, res)=>{
             req.body.deadline,
             req.body.priority,
             req.body.status,
-            req.body.project_name,
-            req.body.is_done
+            req.body.project_name
         ]
         db.query(q, [values], (err, data)=>{
             if(err) return res.status(500).json(err)

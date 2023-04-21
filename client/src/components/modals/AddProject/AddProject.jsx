@@ -26,8 +26,7 @@ function AddProject({ projects, setProjects, setShowDialog, setAreAllSelected}) 
       const requestData = {
         uuid: uuidv4(),
         ...inputs,
-        creation_date: moment(Date.now()).format("YYYY-MM-DD HH:mm:ss"),
-        is_favourite: 0
+        creation_date: moment(Date.now()).format("YYYY-MM-DD HH:mm:ss")
       }
       await axios.post("/projects", requestData)
       setProjects([...projects, requestData])

@@ -27,8 +27,7 @@ export const addProject = (req, res)=>{
             req.body.name,
             req.body.field,
             req.body.description,
-            req.body.creation_date,
-            req.body.is_favourite
+            req.body.creation_date
         ]
         db.query(q, [values], (err, data)=>{
             if(err) return res.status(500).json(err)
