@@ -1,7 +1,6 @@
 import { useNavigate } from "react-router-dom"
 import { useEffect, useState } from "react"
 import { BiCheckbox, BiCheckboxChecked } from "react-icons/bi"
-import { AiFillStar } from "react-icons/ai"
 import { AiFillDelete } from "react-icons/ai"
 import Loader from "../../components/loader/Loader"
 import "./projects.css"
@@ -153,8 +152,7 @@ const Projects = ({
             name,
             description,
             field,
-            creation_date,
-            is_favourite,
+            creation_date
           } = project;
           const isCheckboxToggled = !toggledCheckboxes[uuid];
           return (

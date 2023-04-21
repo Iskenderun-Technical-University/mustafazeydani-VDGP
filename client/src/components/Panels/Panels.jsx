@@ -4,10 +4,9 @@ import { Link } from 'react-router-dom'
 import Logo from '../../assets/logo.svg'
 import User from '../../assets/user.svg'
 import {
-  AiOutlineUser, 
   AiFillDelete, 
   AiFillEdit,
-  AiFillSetting
+  // AiFillSetting
 } from 'react-icons/ai'
 import {
   ImExit
@@ -40,7 +39,7 @@ const Panels = ({ projects, setProjects}) => {
         </div>
 
         <div className="controls">
-          <a href=""><AiFillSetting/></a>
+          {/* <a><AiFillSetting/></a> */}
           <Link onClick={logout} to="/login"><ImExit/></Link>
         </div>
       </div>

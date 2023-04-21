@@ -4,7 +4,7 @@ import "./confirmdelete.css"
 import "../common.css"
 
 function ConfirmDelete({
-  setTasks, taskUuid, // Tasks 
+  setTasks, taskDeleteUuid, // Tasks 
   setProjects, selectedProjects, setAreAllSelected, // Projects
   setError, setShowConfirmDelete, type // Common
 }) {
@@ -29,8 +29,8 @@ function ConfirmDelete({
     
     else if(type==="task") { // delete task
       try{
-        await axios.delete("/tasks", {params: { uuid: taskUuid }})
-        setTasks((prevTasks) => prevTasks.filter((task) => task.uuid !== taskUuid))
+        await axios.delete("/tasks", {params: { uuid: taskDeleteUuid }})
+        setTasks((prevTasks) => prevTasks.filter((task) => task.uuid !== taskDeleteUuid))
       }
       catch(err) {
         setError(err.response.message)

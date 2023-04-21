@@ -7,6 +7,7 @@ import axios from "axios";
 import "./single.css";
 import ConfirmDelete from "../../components/modals/ConfirmDelete/ConfirmDelete";
 import Loader from "../../components/loader/Loader";
+import moment from "moment";
 
 function Single({ fetching, setFetching }) {
   const { state } = useLocation();
@@ -16,40 +17,69 @@ function Single({ fetching, setFetching }) {
   const [tasks, setTasks] = useState([]);
   const [inprogress, setInProgress] = useState([]);
   const [done, setDone] = useState([]);
-  const [clickedItem, setClickedItem] = useState(false);
   const [showAddTask, setShowAddTask] = useState(false);
   const [showConfirmDelete, setShowConfirmDelete] = useState(false);
-  const [taskUuid, setTaskToDelete] = useState(null);
+  const [taskDeleteUuid, setTaskToDelete] = useState(null);
+  const [clickedItem, setClickedItem] = useState(null);
+
+  const [inputs, setInputs] = useState({
+    task: "",
+    deadline: "",
+    priority: "",
+  });
+  
+  const handleChange = (e) => {
+    setInputs((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+  }
+
+  const handleEditCancel = (e) => {
+    setClickedItem(null)
+  }
+
+  const handleSubmit = async () => {
+    await axios.put("/tasks", {...inputs, uuid: clickedItem, type: "details"})
+    const editedTask = tasks.find((task)=>task.uuid===clickedItem)
+    editedTask.task = inputs.task
+    editedTask.deadline = inputs.deadline
+    editedTask.priority = inputs.priority
+    setTasks(tasks.map(task => {
+      if (task.uuid === clickedItem) {
+        return editedTask;
+      } else {
+        return task;
+      }
+    }))
+    setClickedItem(null)
+  }
 
   const handleAddTask = () => {
     setShowAddTask(true);
-  };
-
+  }
   const handleClick = async (e, uuid) => {
     if (e.target.dataset.id === "delete-task") {
       // Delete Task
-      setTaskToDelete(uuid);
-      setShowConfirmDelete(true);
+      setTaskToDelete(uuid)
+      setShowConfirmDelete(true)
     } else if (e.target.dataset.id === "to-in-progress") {
       // Update task and make it in progress
-      await axios.put("/tasks", null, {
-        params: { status: "Active", uuid: uuid },
-      });
+      await axios.put("/tasks", {status: "Active", uuid: uuid, type: "status"});
       setInProgress([...inprogress, tasks.find((task) => task.uuid === uuid)]);
       setTasks(tasks.filter((task) => task.uuid !== uuid));
     } else if (e.target.dataset.id === "to-tasks") {
       // Update task and make it in to do list
-      await axios.put("/tasks", null, {
-        params: { status: "Waiting", uuid: uuid },
-      });
+      await axios.put("/tasks", {status: "Waiting", uuid: uuid, type: "status"});
       setTasks([...tasks, inprogress.find((task) => task.uuid === uuid)]);
       setInProgress(inprogress.filter((task) => task.uuid !== uuid));
-    } else {
-      if (e.target.dataset.id === "edit-task") {
-        setClickedItem(true);
-      } else setClickedItem(false);
+    } else if (e.target.dataset.id === "edit-task") {
+      const pressedTask = tasks.find((task)=>task.uuid===uuid)
+      setInputs({
+        task: pressedTask.task,
+        deadline: moment(pressedTask.deadline).format("YYYY-MM-DD"),
+        priority: pressedTask.priority
+      })
+      setClickedItem(uuid);
     }
-  };
+  }
 
   useEffect(() => {
     setFetching(true);
@@ -83,7 +113,7 @@ function Single({ fetching, setFetching }) {
       {showConfirmDelete && (
         <ConfirmDelete
           setShowConfirmDelete={setShowConfirmDelete}
-          taskUuid={taskUuid}
+          taskDeleteUuid={taskDeleteUuid}
           setError={setError}
           setTasks={setTasks}
           type={"task"}
@@ -117,24 +147,36 @@ function Single({ fetching, setFetching }) {
           )}
           {clickedItem ? (
             <>
-              <p>Task</p>
-              <input
-                className="task-name-input"
-                type="text"
-                placeholder="Task"
-              />
-              <p>Deadline</p>
-              <input type="date" />
-              <p>Priority</p>
-              <select>
-                <option value="">Normal</option>
-                <option value="">Important</option>
-              </select>
+              <form>
+                <p>Task</p>
+                <input
+                  className="task-name-input"
+                  type="text"
+                  placeholder="Task"
+                  value={inputs.task}
+                  name="task"
+                  onChange={handleChange}
+                />
+                <p>Deadline</p>
+                <input 
+                  type="date" 
+                  value={inputs.deadline}
+                  name="deadline"
+                  onChange={handleChange}
+                />
+                <p>Priority</p>
+                <select value={inputs.priority} name="priority" onChange={handleChange}>
+                  <option value="">-- Select an option --</option>
+                  <option value="Low">Low</option>
+                  <option value="Medium">Medium</option>
+                  <option value="High">High</option>
+                </select>
+              </form>
               <div className="task-buttons">
-                <button className="btn" onClick={handleClick}>
+                <button data-id="cancel" className="btn" onClick={handleEditCancel}>
                   Back
                 </button>
-                <button className="btn btn-main">Save</button>
+                <button className="btn btn-main" onClick={handleSubmit}>Save</button>
               </div>
             </>
           ) : (
@@ -176,10 +218,9 @@ function Single({ fetching, setFetching }) {
               <div
                 className="task"
                 key={uuid}
-                onClick={(e) => handleClick(e, uuid)}
               >
                 <p className="task-name">{task}</p>
-                <button data-id="to-tasks">
+                <button data-id="to-tasks" onClick={(e) => handleClick(e, uuid)}>
                   <MdStart className="icon" />
                 </button>
               </div>

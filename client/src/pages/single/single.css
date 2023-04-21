@@ -83,6 +83,13 @@
 
 /****** Task Section ******/
 
+.single form {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    gap: 1em;
+}
+
 .single .task-name-input {
     border: 2px solid var(--color-primary);
     padding: .7em;

@@ -10,12 +10,15 @@ function AddTask({
   project_name,
   project_uuid,
 }) {
+  
   const [inputs, setInputs] = useState({
     task: "",
     deadline: "",
     priority: "",
   });
-  console.log(inputs);
+  const handleChange = (e) => {
+    setInputs((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+  };
 
   const handleCancelClick = () => {
     setShowAddTask(false);
@@ -40,9 +43,7 @@ function AddTask({
     setShowAddTask(false);
   };
 
-  const handleChange = (e) => {
-    setInputs((prev) => ({ ...prev, [e.target.name]: e.target.value }));
-  };
+  
   return (
     <div className="add-task modal-back">
       <div className="modal">
