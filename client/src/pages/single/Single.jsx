@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from "react";
 import AddTask from "../../components/modals/AddTask/AddTask";
 import { Link, useLocation } from "react-router-dom";
-import { MdStart, MdDelete } from "react-icons/md";
+import { MdDelete } from "react-icons/md";
+import {BsArrowRightCircleFill, BsArrowLeftCircleFill} from "react-icons/bs"
 import { AiOutlineArrowLeft } from "react-icons/ai";
+import {IoCheckmarkDoneOutline} from "react-icons/io5"
 import axios from "axios";
 import "./single.css";
 import ConfirmDelete from "../../components/modals/ConfirmDelete/ConfirmDelete";
@@ -60,17 +62,38 @@ function Single({ fetching, setFetching }) {
       // Delete Task
       setTaskToDelete(uuid)
       setShowConfirmDelete(true)
-    } else if (e.target.dataset.id === "to-in-progress") {
-      // Update task and make it in progress
+    } 
+
+    else if (e.target.dataset.id === "tasks-to-in-progress") {
+      // Send Task to In Progress from To-Do List
       await axios.put("/tasks", {status: "Active", uuid: uuid, type: "status"});
       setInProgress([...inprogress, tasks.find((task) => task.uuid === uuid)]);
       setTasks(tasks.filter((task) => task.uuid !== uuid));
-    } else if (e.target.dataset.id === "to-tasks") {
-      // Update task and make it in to do list
+    } 
+
+    else if (e.target.dataset.id === "to-tasks") {
+      // Send Task to To-Do List from In Progress
       await axios.put("/tasks", {status: "Waiting", uuid: uuid, type: "status"});
       setTasks([...tasks, inprogress.find((task) => task.uuid === uuid)]);
       setInProgress(inprogress.filter((task) => task.uuid !== uuid));
-    } else if (e.target.dataset.id === "edit-task") {
+    } 
+
+    else if (e.target.dataset.id=== "to-done") {
+      // Send task to Done from In Progress
+      await axios.put("/tasks", {status: "Done", uuid: uuid, type: "status"});
+      setDone([...done, inprogress.find((task) => task.uuid === uuid)]);
+      setInProgress(inprogress.filter((task) => task.uuid !== uuid));
+    } 
+
+    else if (e.target.dataset.id === "done-to-in-progress") {
+      // Send Task to In Progress from Done List
+      // console.log("Hello")
+      await axios.put("/tasks", {status: "Active", uuid: uuid, type: "status"});
+      setInProgress([...inprogress, done.find((task) => task.uuid === uuid)]);
+      setDone(done.filter((task) => task.uuid !== uuid));
+    } 
+
+    else if (e.target.dataset.id === "edit-task") {
       const pressedTask = tasks.find((task)=>task.uuid===uuid)
       setInputs({
         task: pressedTask.task,
@@ -193,8 +216,8 @@ function Single({ fetching, setFetching }) {
                   <button data-id="delete-task">
                     <MdDelete className="icon" />
                   </button>
-                  <button data-id="to-in-progress">
-                    <MdStart className="icon" />
+                  <button data-id="tasks-to-in-progress">
+                    <BsArrowRightCircleFill className="icon" />
                   </button>
                 </div>
               );
@@ -221,7 +244,10 @@ function Single({ fetching, setFetching }) {
               >
                 <p className="task-name">{task}</p>
                 <button data-id="to-tasks" onClick={(e) => handleClick(e, uuid)}>
-                  <MdStart className="icon" />
+                  <BsArrowLeftCircleFill className="icon" />
+                </button>
+                <button data-id="to-done" onClick={(e) => handleClick(e, uuid)}>
+                  <IoCheckmarkDoneOutline className="icon" />
                 </button>
               </div>
             );
@@ -235,6 +261,20 @@ function Single({ fetching, setFetching }) {
             done.length === 0 &&
             !fetching && <p className="error">No Tasks Added</p>
           )}
+          {done.map((singletask) => {
+            const { uuid, task } = singletask;
+            return (
+              <div
+                className="task"
+                key={uuid}
+              >
+                <p className="task-name">{task}</p>
+                <button data-id="done-to-in-progress" onClick={(e) => handleClick(e, uuid)}>
+                  <BsArrowLeftCircleFill className="icon" />
+                </button>
+              </div>
+            );
+          })}
         </div>
       </div>
     </div>
