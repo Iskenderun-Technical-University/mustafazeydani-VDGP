@@ -47,20 +47,32 @@
     max-width: 100%;
     align-items: center;
     border-radius: .5em;
-    background-color: var(--color-primary);
     padding: .3em 1em;
-    transition: transform 0.3s ease-in-out;
 }
 
-.single .task:hover {
+.single .to-do {
+    transition: transform 0.3s ease-in-out;
+    background: var(--color-primary);
+}
+
+.single .to-do:hover {
     transform: scale(1.05);
     cursor: pointer;
+}
+
+.single .in-progress {
+    background: rgb(226, 226, 22);
+}
+
+.single .done {
+    background: rgb(27, 202, 27);
 }
 
 .single .task-name {
     max-width: 150px;
     overflow-wrap: break-word;
     margin-right: auto;
+    pointer-events: none;
 } 
 
 .task button {

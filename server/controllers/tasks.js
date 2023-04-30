@@ -13,13 +13,23 @@ export const getTasks = (req, res)=>{
     })
 }
 
+export const getAllTasks = (req, res)=>{
+    const token = req.cookies.access_token
+    jwt.verify(token, "jwtkey", (err, userInfo)=>{
+        if(err) return res.status(403).json("Token is not valid!")
+        const q = "SELECT * FROM tasks WHERE `user_uuid` = (?)"
+        db.query(q, [userInfo.uuid], (err, data)=>{
+            if(err) return res.send(err)
+            return res.status(200).json(data)
+        })
+    })
+}
+
 export const addTask = (req, res)=>{
     const token = req.cookies.access_token
     jwt.verify(token, "jwtkey", (err, userInfo)=>{
         if(err) return res.status(403).json("Token is not valid!")
-        
-        const q = "INSERT INTO tasks VALUES(?)"
-
+        const q = "INSERT INTO tasks VALUES (?)"
         const values = [
             req.body.uuid,
             userInfo.uuid,
@@ -59,6 +69,5 @@ export const updateTask = (req, res)=>{
             if(err) return res.status(500).json(err)
             return res.json("Task has been updated")
         })
-    }
-    
+    } 
 }

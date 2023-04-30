@@ -105,31 +105,30 @@ function Single({ fetching, setFetching }) {
   }
 
   useEffect(() => {
-    setFetching(true);
+    setFetching(true)
     const fetchData = async () => {
       try {
-        // fetch To-Do-Tasks
-        let res = await axios.get("/tasks", {
-          params: { project_uuid: project_uuid, status: "Waiting" },
-        });
-        setTasks(res.data);
-        // fetch In-Progress-Tasks
-        res = await axios.get("/tasks", {
-          params: { project_uuid: project_uuid, status: "Active" },
-        });
-        setInProgress(res.data);
-        // fetch Done Tasks
-        res = await axios.get("/tasks", {
-          params: { project_uuid: project_uuid, status: "Done" },
-        });
-        setDone(res.data);
+        const [tasksRes, inProgressRes, doneRes] = await Promise.all([
+          axios.get("/tasks", {
+            params: { project_uuid: project_uuid, status: "Waiting" },
+          }),
+          axios.get("/tasks", {
+            params: { project_uuid: project_uuid, status: "Active" },
+          }),
+          axios.get("/tasks", {
+            params: { project_uuid: project_uuid, status: "Done" },
+          }),
+        ])
+        setTasks(tasksRes.data);
+        setInProgress(inProgressRes.data);
+        setDone(doneRes.data);
       } catch (err) {
         setError("Error fetching tasks");
       }
       setFetching(false);
-    };
-    fetchData();
-  }, [setTasks, setFetching, project_uuid]);
+    }
+    fetchData()
+  }, [setTasks, setInProgress, setDone, setFetching, project_uuid])
 
   return (
     <div className="single">
@@ -160,7 +159,7 @@ function Single({ fetching, setFetching }) {
         </Link>
       </div>
       <div className="single-content">
-        <div className="to-do container">
+        <div className="container">
           <h2>To-do List</h2>
           {err ? (
             <p className="error">{err}</p>
@@ -207,7 +206,7 @@ function Single({ fetching, setFetching }) {
               const { uuid, task } = singletask;
               return (
                 <div
-                  className="task"
+                  className="task to-do"
                   data-id="edit-task"
                   key={uuid}
                   onClick={(e) => handleClick(e, uuid)}
@@ -225,7 +224,7 @@ function Single({ fetching, setFetching }) {
           )}
         </div>
 
-        <div className="in-progress container">
+        <div className="container">
           <h2>In-Progress</h2>
           {fetching && tasks.length === 0 ? (
             <Loader />
@@ -239,7 +238,7 @@ function Single({ fetching, setFetching }) {
             const { uuid, task } = singletask;
             return (
               <div
-                className="task"
+                className="task in-progress"
                 key={uuid}
               >
                 <p className="task-name">{task}</p>
@@ -253,7 +252,7 @@ function Single({ fetching, setFetching }) {
             );
           })}
         </div>
-        <div className="done container">
+        <div className="container">
           <h2>Done</h2>
           {err ? (
             <p className="error">{err}</p>
@@ -265,7 +264,7 @@ function Single({ fetching, setFetching }) {
             const { uuid, task } = singletask;
             return (
               <div
-                className="task"
+                className="task done"
                 key={uuid}
               >
                 <p className="task-name">{task}</p>

@@ -37,16 +37,21 @@ thead {
 
 table, th, td:not(:has(input)) {
     position: relative;
-    padding: 16px;
+    padding: 20px;
 }
 
 table {
     border-collapse: collapse;
     border-spacing: 0;
+    width: 100%;
 }
 
 th, td:not(:has(input)) {
     text-align: start;
+}
+
+th.status {
+    text-align: center;
 }
 
 td:has(input) {
@@ -63,26 +68,80 @@ td.deadline {
     color: var(--color-darkgrey);
 }
 
-.status {
+p.status {
     position: absolute;
     left: 50%;
     top: 50%;
     transform: translate(-50%, -50%);
-    background-color: greenyellow;
     padding: 0.2em 1em;
     border-radius: 1.2em;
 }
 
-td {
+p.priority {
+    display: inline-block;
+    text-align: center;
+    padding: 0.2em 1em;
+    border-radius: 1.2em;
+    width: 100px;
+}
+
+td:not(.task-name) {
     white-space: nowrap;
 }
 
-tr td:last-child {
-    width: 100%;
+tr td.mark-as-done-cell {
+    width: auto;
     text-align: end;
+}
+
+button.mark-as-done {
+    display: inline-block;
+    text-align: center;
+    padding: 0.2em 1em;
+    border-radius: 1.2em;
+    outline: none;
+    border: none;
+    background: #ffb546;
+    font-size: 1em;
+    transition: var(--transition);
+}
+
+button.mark-as-done:hover {
+    background: var(--color-variant);
+    cursor: pointer;
+}
+
+tbody tr {
+    transition: var(--transition);
 }
 
 tbody tr:hover {
     background-color: var(--color-primary);
     cursor: pointer;
+}
+
+/***** Colors ******/
+
+p.Active {
+    background: #25EB25 ;
+}
+
+p.Waiting {
+    background: #f3ee57;
+}
+
+p.Done {
+    background: #adb1ad;
+}
+
+p.Low {
+    background: rgb(255, 174, 174);
+}
+
+p.Medium {
+    background: rgb(255, 90, 90);
+}
+
+p.High {
+    background: red;
 }

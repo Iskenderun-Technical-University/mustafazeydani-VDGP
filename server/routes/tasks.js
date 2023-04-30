@@ -1,6 +1,7 @@
 import express from "express"
 import { 
     getTasks,
+    getAllTasks,
     addTask,
     deleteTask,
     updateTask
@@ -9,6 +10,7 @@ import {
 const router = express.Router()
 
 router.get("/", getTasks)
+router.get("/all", getAllTasks)
 router.post("/", addTask)
 router.delete("/", deleteTask)
 router.put("/", updateTask)
