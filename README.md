@@ -1,21 +1,24 @@
+[![EN](https://img.shields.io/badge/lang-EN-orange.svg)](https://github.com/Iskenderun-Technical-University/mustafazeydani-VDGP/blob/main/README-EN.md)
 # TaskMate
-TaskMate is a web application built with React.js, Node.js, and Express.js for managing individual projects. The application provides an intuitive interface for creating, updating, and deleting projects and tasks. Users can also filter and sort them by various criteria, add projects to favourites and mark tasks as done.
+TaskMate, bireysel projeleri yönetmek için React.js, Node.js ve Express.js ile oluşturulmuş bir web uygulamasıdır.
 
-## Database Scheme
+TaskMate, bireysel projeleri ve görevleri verimli bir şekilde yönetme görevini basitleştirmek için tasarlanmıştır. Uygulama, projeleri, görevleri ve notları oluşturmak, güncellemek ve silmek için kullanıcı dostu bir arayüz sağlar. Ayrıca kullanıcıların bunları çeşitli kriterlere göre filtrelemesine ve sıralamasına olanak tanır. TaskMate'in nihai amacı, bireylerin düzenli ve üretken kalmalarına yardımcı olarak proje yönetimi hedeflerine ulaşmalarını kolaylaştırmaktır.
+
+## Veritabanı Şeması
 ![scheme](./assets/diagrams/scheme.png)
 
-## Database Configuration
-This application uses MySQL and  an .env file to store the database configuration information to ensure security. Before running the application, make sure to configure your own database by following these steps:
+## Veritabanı Yapılandırması
+Bu uygulama, MySQL veritabanı ve veritabanı yapılandırma bilgilerini saklamak ve güvenliği sağlamak için bir .env dosyası kullanmaktadır. Uygulamayı çalıştırmadan önce, kendi veritabanınızı konfigüre ettiğinizden emin olmak için aşağıdaki adımları izleyin:
 
-1- Ensure that you have a database set up and running, and that you have the necessary permissions to create and modify tables.
+1- Bir veritabanınızın kurulu ve çalışır durumda olduğundan ve tablo oluşturmak ve değiştirmek için gerekli izinlere sahip olduğunuzdan emin olun.
 
-2- Navigate to the **server** directory `cd server`. You will find two files, **createTables.sql** and **.env-template**. 
+2- **server** dizinine gezin `cd server`. İki dosya bulacaksınız, **createTables.sql** ve **.env-template**. 
 
-2- Use the **createTables.sql** file to create the tables in your database.
+2- Veritabanınızdaki tabloları oluşturmak için **createTables.sql** dosyasını kullanın.
 
-3- Rename the **.env-template** file to **.env** and update it with your MySQL database configuration details.
+3- **.env-template** dosyasının adını **.env** olarak değiştirin ve MySQL veritabanı yapılandırma bilgilerinizi güncelleyin.
 
-Here's an example of the **.env** file:
+Aşağıda **.env** dosyasının bir örneği verilmiştir:
 
 ```bash
 host=localhost
@@ -25,19 +28,19 @@ database=my_database
 port=3306
 ```
 
-## Requirements
-Before running the application, you need to have Node.js and npm installed on your system. You can download the latest version of Node.js from the [**offical website**](https://nodejs.org/).
+## Gereksinimler
+Uygulamayı çalıştırmadan önce, sistemde Node.js ve npm'in kurulu olması gerekir. Node.js'in en son sürümünü [**resmi web sitesi**](https://nodejs.org/)nden indirebilirsiniz.
 
-## Installation
-To install the application, follow these steps:
+## Kurulum
+Uygulamayı yüklemek için şu adımları izleyin:
 
-1- Clone the repository: 
+1- Depoyu klonlayın: 
 
 ```bash
 git clone https://github.com/Iskenderun-Technical-University/mustafazeydani-VDGP.git
 ```
 
-2- Install the dependencies:
+2- Bağımlılıkları yükleyin:
 
 ```bash
 cd mustafazeydani-VDGP/client
@@ -46,29 +49,29 @@ cd ../server
 npm install
 ```
 
-## Usage
-To run the application, follow these steps:
+## Kullanım
+Uygulamayı çalıştırmak için şu adımları izleyin:
 
-1- Start the server:
+1- Sunucuyu başlatın:
 
 ```bash
 cd server
 npm start
 ```
 
-This will start the server on **http[]()://localhost:8800**.
+Bu, sunucuyu **http[]()://localhost:8800** adresinde başlatacaktır.
 
-2- Start the client:
+2- İstemciyi başlatın:
 
 ```bash
 cd client
 npm start
 ```
 
-This will start the client on **http[]()://localhost:3000**.
+Bu, istemciyi **http[]()://localhost:3000** adresinde başlatacaktır.
 
-3- Open **http[]()://localhost:3000** in your web browser to access the application.
+3- Uygulamaya erişmek için web tarayıcınızda **http[]()://localhost:3000** adresini açın.
 
-## Feedback
+## Geri bildirim
 
-If you have any feedback, please reach out to me at mustafamari20@gmail.com.
+Herhangi bir geri bildiriminiz varsa, lütfen bana mustafamari20@gmail.com adresinden ulaşın.
