@@ -78,7 +78,7 @@ function App() {
                 }
               />
               <Route path="/tasks" element={<Tasks />} />
-              <Route path="/projects/:id" element={<Single fetching={fetching} setFetching={setFetching}/>} />
+              <Route path="/projects/:name/:uuid" element={<Single fetching={fetching} setFetching={setFetching}/>} />
             </Route>
               <Route path="/register" element={<Register />} />
               <Route path="/login" element={<Login />} />

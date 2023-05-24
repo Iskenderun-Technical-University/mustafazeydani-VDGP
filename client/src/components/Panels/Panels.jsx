@@ -14,10 +14,14 @@ import {
 import AddProject from '../modals/AddProject/AddProject'
 import { AuthContext } from '../../context/authContext'
 
-
 const Panels = ({ projects, setProjects}) => {
 
   const [showAddProject, setShowAddProject] = useState(false)
+  const [selectedMenu, setSelectedMenu] = useState(null)
+
+  const handleSelect = (menu) => {
+      setSelectedMenu(menu)
+  }
   
   const handleCreateProjectClick = () => {
     setShowAddProject(true)
@@ -32,22 +36,17 @@ const Panels = ({ projects, setProjects}) => {
         
         <div className="leftpanel-links">
           <img src={Logo} alt="logo" />
-          {/* <Link className='link' to=''><AiOutlineUser/></Link>
-          <Link className='link' to=''><AiOutlineUser/></Link>
-          <Link className='link' to=''><AiOutlineUser/></Link>
-          <Link className='link' to=''><AiOutlineUser/></Link> */}
         </div>
 
         <div className="controls">
-          {/* <a><AiFillSetting/></a> */}
           <Link onClick={logout} to="/login"><ImExit/></Link>
         </div>
       </div>
 
       <div className="upperpanel">
         <div className="upperpanel-links">
-          <Link to="/projects" className='link'>My Projects</Link>
-          <Link to="/tasks" className='link'>My Tasks</Link>
+          <Link to="/projects" className={selectedMenu==="projects"&&"selected"} onClick={()=>handleSelect("projects")}>My Projects</Link>
+          <Link to="/tasks" className={selectedMenu==="tasks"&&"selected"} onClick={()=>handleSelect("tasks")}>My Tasks</Link>
         </div>
         <a className="btn" onClick={handleCreateProjectClick}>Create New Project</a>
       </div>

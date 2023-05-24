@@ -15,11 +15,9 @@
     margin-bottom: 1em;
 }
 
-.tasks-header-icons {
-    display: flex;
-    font-size: 1.5em;
-    gap: 1em;
-    margin-right: auto;
+
+.filter:nth-of-type(1) {
+    margin-left: auto;
 }
 
 .table-container {
@@ -30,12 +28,19 @@
     overflow: auto;
 }
 
+.error {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+}
+
 thead {
     color: var(--color-darkgrey);
     font-size: 0.9em
 }
 
-table, th, td:not(:has(input)) {
+table, th, td {
     position: relative;
     padding: 20px;
 }
@@ -46,21 +51,18 @@ table {
     width: 100%;
 }
 
-th, td:not(:has(input)) {
+th, td {
     text-align: start;
 }
 
-th.status {
+th.status,
+th.priority {
     text-align: center;
 }
 
-td:has(input) {
-    text-align: center;
-}
-
-td input[type="checkbox"] {
-    display: inline-block;
-    vertical-align: middle;
+td.task-name {
+    word-wrap: break-word;
+    max-width: 200px;
 }
 
 td.deadline {
@@ -68,7 +70,8 @@ td.deadline {
     color: var(--color-darkgrey);
 }
 
-p.status {
+p.status,
+p.priority {
     position: absolute;
     left: 50%;
     top: 50%;
@@ -119,6 +122,7 @@ tbody tr:hover {
     background-color: var(--color-primary);
     cursor: pointer;
 }
+
 
 /***** Colors ******/
 

@@ -66,12 +66,10 @@
 }
 
 .project-category {
-    background-color: #f1ecff;
-    width: 12em;
+    width: 14em;
     padding: .4em;
     font-size: .8em;
     border-radius: 2em;
-    color: #866cca;
     text-align: center;
     position: absolute;
     bottom: 50px;
@@ -126,4 +124,42 @@
 
 .checkbox-main {
     color: black;
+}
+
+
+/***** Colors *****/
+
+.Web {
+    background-color: #f1ecff;
+    color: #866cca;
+}
+
+.Cyber {
+    background-color: #f8d0dc;
+    color: #c11246;
+}
+
+.Mobile {
+    background-color: #c7fce2;
+    color: #129f5b;
+}
+
+.Blockchain {
+    background-color: #b1eaff;
+    color: #1f8db5;
+}
+
+.Artificial {
+    background-color: #fff7cb;
+    color: #eacd28;
+}
+
+.Game {
+    background-color: #fcc8ff;
+    color: #e224ec;
+}
+
+.Other {
+    background-color: #ffe5c3;
+    color: #e38b18;
 }

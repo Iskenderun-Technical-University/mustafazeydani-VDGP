@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import AddTask from "../../components/modals/AddTask/AddTask";
-import { Link, useLocation } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { MdDelete } from "react-icons/md";
 import {BsArrowRightCircleFill, BsArrowLeftCircleFill} from "react-icons/bs"
 import { AiOutlineArrowLeft } from "react-icons/ai";
@@ -12,8 +12,10 @@ import Loader from "../../components/loader/Loader";
 import moment from "moment";
 
 function Single({ fetching, setFetching }) {
-  const { state } = useLocation();
-  const { project_uuid, project_name } = state;
+
+  const url = window.location.href;
+  const [, temp, project_uuid] = url.match(/\/([^/]+)\/([\w-]+)$/);
+  const project_name = decodeURIComponent(temp);
 
   const [err, setError] = useState(null);
   const [tasks, setTasks] = useState([]);
@@ -151,6 +153,7 @@ function Single({ fetching, setFetching }) {
         />
       )}
       <div className="single-header">
+        <h2>{project_name}</h2>
         <button className="btn" onClick={handleAddTask}>
           Create a task
         </button>
@@ -160,7 +163,10 @@ function Single({ fetching, setFetching }) {
       </div>
       <div className="single-content">
         <div className="container">
-          <h2>To-do List</h2>
+          <div className="container-header">
+            <h2>To-do List</h2>
+            <p>{tasks.length + " Waiting"}</p>
+          </div>
           {err ? (
             <p className="error">{err}</p>
           ) : (
@@ -225,7 +231,10 @@ function Single({ fetching, setFetching }) {
         </div>
 
         <div className="container">
-          <h2>In-Progress</h2>
+          <div className="container-header">
+            <h2>In Progress</h2>
+            <p>{inprogress.length + " Active"}</p>
+          </div>
           {fetching && tasks.length === 0 ? (
             <Loader />
           ) : err ? (
@@ -253,7 +262,10 @@ function Single({ fetching, setFetching }) {
           })}
         </div>
         <div className="container">
-          <h2>Done</h2>
+          <div className="container-header">
+            <h2>Done</h2>
+            <p>{done.length + " Done"}</p>
+          </div>
           {err ? (
             <p className="error">{err}</p>
           ) : (

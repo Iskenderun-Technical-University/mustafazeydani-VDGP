@@ -57,6 +57,11 @@ function AddProject({ projects, setProjects, setShowDialog, setAreAllSelected}) 
               <option value="">-- Select an option --</option>
               <option value='Web Development'>Web Development</option>
               <option value='Cyber Security'>Cyber Security</option>
+              <option value='Mobile App Development'>Mobile App Development</option>
+              <option value='Blockchain'>Blockchain</option>
+              <option value='Artificial Intelligence'>Artificial Intelligence</option>
+              <option value='Game Development'>Game Development</option>
+              <option value='Other'>Other</option>
             </select>
             <p>Description</p>
             <textarea 

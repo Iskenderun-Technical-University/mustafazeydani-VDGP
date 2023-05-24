@@ -40,6 +40,12 @@
     margin: auto 0;
 }
 
+.single .container-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
 .single .task {
     display: flex;
     gap: .5em;

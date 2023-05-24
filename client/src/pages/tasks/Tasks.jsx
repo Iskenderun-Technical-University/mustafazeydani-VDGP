@@ -1,13 +1,8 @@
 import React, {useState, useEffect} from 'react'
+import { useNavigate } from "react-router-dom"
 import axios from 'axios'
 import Loader from '../../components/loader/Loader'
 import moment from "moment"
-
-import {
-  BiCheckbox,
-  // BiCheckboxChecked,
-} from 'react-icons/bi'
-import {AiFillDelete} from 'react-icons/ai'
 import "./tasks.css"
 
 function Tasks() {
@@ -15,6 +10,12 @@ function Tasks() {
   const [tasks, setTasks] = useState([])
   const [fetching, setFetching] = useState(false)
   const [selectedOption, setSelectedOption] = useState("name")
+
+  const navigate = useNavigate()
+
+  const handleRowClick = (uuid, name) => {
+    navigate(`/projects/${name}/${uuid}`)
+  }
 
   const handleChange = (event) => {
     setSelectedOption(event.target.value);
@@ -37,10 +38,6 @@ function Tasks() {
   return (
     <div className='tasks'>
       <div className='tasks-header'>
-        <div className='tasks-header-icons'>
-          <BiCheckbox/>
-          <AiFillDelete/>
-        </div>
         <div className="filter">
           <p className="filter-type">Category</p>
           <select value={selectedOption} onChange={handleChange} className='select'>
@@ -59,44 +56,40 @@ function Tasks() {
       </div>
       
       <div className="table-container">
+        {fetching?
+          <Loader/>:
+          err?
+          <p className='error'>Error fetching tasks</p>:
+          tasks.length===0&&
+          <p className='error'>No tasks added</p>
+        }
         <table>
           <thead>
             <tr>
-              <th></th>
               <th>Task name</th>
               <th>Deadline</th>
               <th className='status'>Status</th>
               <th>Project</th>
-              <th className='priority-header'>
-                <p className='priority'>Priority</p>
-              </th>
-              <th></th>
+              <th className='priority'>Priority</th>
             </tr>
           </thead>
-          <tbody>
-            {fetching?<Loader/>:err ?<p>{err}</p>:
-            tasks.map((task)=>{
-               return(
-                <tr>
-               <td><input type="checkbox"/></td>
-               <td>{task.task}</td>
-               <td className='deadline'>{moment(task.deadline).format("YYYY-MM-DD")}</td>
+          <tbody>{
+            tasks.map((singletask)=>{
+              const {uuid, task, status, deadline, project_name, project_uuid, priority} = singletask
+              return(
+                <tr key={uuid} onClick={()=>handleRowClick(project_uuid, project_name)}>
+               <td className='task-name'>{task}</td>
+               <td className='deadline'>{moment(deadline).format("YYYY-MM-DD")}</td>
                <td>
-                 <p className={task.status + " status"}>{task.status}</p>
+                 <p className={status + " status"}>{status}</p>
                </td>
-               <td>{task.project_name}</td>
-               <td className="priority-cell" colSpan={task.status!=="Active" && "2"}>
-                <p className={task.priority + " priority"}>{task.priority}</p>
+               <td>{project_name}</td>
+               <td>
+                <p className={priority + " priority"}>{priority}</p>
                </td> 
-               {task.status==="Active" && 
-                <td className='mark-as-done-cell'>
-                  <button className='mark-as-done'>Mark As Done</button>
-                </td>
-               }
               </tr>
                )
             })}
-           
           </tbody>
         </table>
       </div>

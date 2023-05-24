@@ -57,7 +57,7 @@ const Projects = ({
         else return [...prevSelectedProjects, uuid]
       })
     } else {
-      navigate(`/projects/${uuid}`, { state: { project_uuid: uuid, project_name: name } })
+      navigate(`/projects/${name}/${uuid}`)
     }
   }
 
@@ -163,7 +163,7 @@ const Projects = ({
             >
               <h2 className="project-name">{name}</h2>
               <p className="project-details">{description}</p>
-              <div className="project-category">{field}</div>
+              <div className={"project-category " + field.split(" ")[0]}>{field}</div>
               <div className="project-footer">
                 <p className="project-creation">
                   {moment(creation_date).fromNow()}
