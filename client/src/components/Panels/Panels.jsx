@@ -14,10 +14,9 @@ import {
 import AddProject from '../modals/AddProject/AddProject'
 import { AuthContext } from '../../context/authContext'
 
-const Panels = ({ projects, setProjects}) => {
+const Panels = ({ projects, setProjects, selectedMenu, setSelectedMenu}) => {
 
   const [showAddProject, setShowAddProject] = useState(false)
-  const [selectedMenu, setSelectedMenu] = useState(null)
 
   const handleSelect = (menu) => {
       setSelectedMenu(menu)
@@ -35,7 +34,7 @@ const Panels = ({ projects, setProjects}) => {
       <div className="leftpanel">
         
         <div className="leftpanel-links">
-          <img src={Logo} alt="logo" />
+          <Link to="/" onClick={() => handleSelect("")}><img src={Logo} alt="logo" /></Link>
         </div>
 
         <div className="controls">
@@ -45,16 +44,16 @@ const Panels = ({ projects, setProjects}) => {
 
       <div className="upperpanel">
         <div className="upperpanel-links">
-          <Link to="/projects" className={selectedMenu==="projects"&&"selected"} onClick={()=>handleSelect("projects")}>My Projects</Link>
-          <Link to="/tasks" className={selectedMenu==="tasks"&&"selected"} onClick={()=>handleSelect("tasks")}>My Tasks</Link>
+          <Link to="/projects" className={selectedMenu==="projects"?"selected":""} onClick={()=>handleSelect("projects")}>My Projects</Link>
+          <Link to="/tasks" className={selectedMenu==="tasks"?"selected":""} onClick={()=>handleSelect("tasks")}>My Tasks</Link>
         </div>
-        <a className="btn" onClick={handleCreateProjectClick}>Create New Project</a>
+        <button className='btn' onClick={handleCreateProjectClick}>Create New Project</button>
       </div>
 
       <div className="rightpanel">
         <div className="user">
           <p>Hello,<br/><span>{currentUser.username}</span></p>
-          <img src={User}/>
+          <img alt="user-avatar" src={User}/>
         </div>
         <div className="statistics">
           <div className="total-projects">
@@ -64,7 +63,7 @@ const Panels = ({ projects, setProjects}) => {
             </div>
           </div>
           <div className="completed">
-            <div div className="content">
+            <div className="content">
               <p>Completed:</p>
               <p>0</p>
             </div>
@@ -85,7 +84,7 @@ const Panels = ({ projects, setProjects}) => {
         <div className="notes">
           <div className="notes-header">
             <p>Notes</p>
-            <a className='add-note'>+</a>
+            <button className='add-note'>+</button>
           </div>
           <div className="notes-content">
             <div className="note btn">

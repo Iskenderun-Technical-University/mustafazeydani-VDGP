@@ -15,7 +15,7 @@ export const register = (req,res)=>{
         const salt = bcrypt.genSaltSync(10);
         const hash = bcrypt.hashSync(req.body.password, salt);
 
-        const q = "INSERT INTO users(`uuid`,`username`,`email`,`password`) VALUES(?)"
+        const q = "INSERT INTO users VALUES(?)"
         const values = [
             req.body.uuid, 
             req.body.username, 

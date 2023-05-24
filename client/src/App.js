@@ -11,10 +11,10 @@ import NotFoundPage from "./components/NotFound";
 import { useContext, useState, useEffect } from "react";
 import { AuthContext } from "./context/authContext";
 
-const Layout = ({ projects, setProjects }) => {
+const Layout = ({ projects, setProjects, selectedMenu, setSelectedMenu }) => {
   return (
     <>
-        <Panels projects={projects} setProjects={setProjects}/>
+        <Panels projects={projects} setProjects={setProjects} selectedMenu={selectedMenu} setSelectedMenu={setSelectedMenu}/>
         <div className="outlet">
           <Outlet />
         </div>
@@ -25,10 +25,19 @@ const Layout = ({ projects, setProjects }) => {
 export const ProtectedRoute = ({ children }) => {
   const { currentUser } = useContext(AuthContext)
   if (!currentUser) {
-    return <Navigate to="/login" />;
+    if(window.location.pathname!=='/login' && window.location.pathname!=='/register') {
+      return <Navigate to={"/login"}/>
+    }
+    return children   
   }
-  return children
+  else if(currentUser) {
+    if(window.location.pathname==='/login' || window.location.pathname==='/register') {
+      return <Navigate to={"/"}/>
+    }
+    return children
+  }
 }
+
 
 function App() {
 
@@ -47,10 +56,11 @@ function App() {
   
     return () => window.removeEventListener('resize', flexFont)
   }, [])
-
+  
   const [projects, setProjects] = useState([])
   const [fetching, setFetching] = useState(true)
   const [selectedProjects, setSelectedProjects] = useState([])
+  const [selectedMenu, setSelectedMenu] = useState(null)
 
   return (
     <div className="app">
@@ -60,7 +70,7 @@ function App() {
             <Route path="*" element={<NotFoundPage/>} />
             <Route path="/" element={
               <ProtectedRoute>
-                <Layout projects={projects} setProjects={setProjects}/>
+                <Layout projects={projects} setProjects={setProjects} selectedMenu={selectedMenu} setSelectedMenu={setSelectedMenu}/>
               </ProtectedRoute>
             }>
               <Route path="/" element={<Home />}/>
@@ -77,11 +87,19 @@ function App() {
                   />
                 }
               />
-              <Route path="/tasks" element={<Tasks />} />
+              <Route path="/tasks" element={<Tasks setSelectedMenu={setSelectedMenu}/>} />
               <Route path="/projects/:name/:uuid" element={<Single fetching={fetching} setFetching={setFetching}/>} />
             </Route>
-              <Route path="/register" element={<Register />} />
-              <Route path="/login" element={<Login />} />
+              <Route path="/register" element={
+                <ProtectedRoute>
+                  <Register />
+                </ProtectedRoute>
+              } />
+              <Route path="/login" element={
+                <ProtectedRoute>
+                  <Login />
+                </ProtectedRoute>
+              } />
           </Routes>
         </Router>
       </div>

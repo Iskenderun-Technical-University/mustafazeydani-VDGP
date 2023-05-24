@@ -5,7 +5,7 @@ import Loader from '../../components/loader/Loader'
 import moment from "moment"
 import "./tasks.css"
 
-function Tasks() {
+function Tasks({setSelectedMenu}) {
   const [err, setError] = useState(null)
   const [tasks, setTasks] = useState([])
   const [fetching, setFetching] = useState(false)
@@ -14,7 +14,8 @@ function Tasks() {
   const navigate = useNavigate()
 
   const handleRowClick = (uuid, name) => {
-    navigate(`/projects/${name}/${uuid}`)
+    navigate(`/projects/${name.replace(/\s+/g, "-")}/${uuid}`)
+    setSelectedMenu("projects")
   }
 
   const handleChange = (event) => {

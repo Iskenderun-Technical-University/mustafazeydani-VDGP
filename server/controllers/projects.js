@@ -43,13 +43,3 @@ export const deleteProject = (req, res)=>{
         return res.json("Project has been deleted!")
     })
 }
-
-
-export const getProject = (req, res)=>{
-
-}
-
-
-export const updateProject = (req, res)=>{
-
-}

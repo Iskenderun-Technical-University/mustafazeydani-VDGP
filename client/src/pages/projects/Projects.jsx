@@ -41,6 +41,7 @@ const Projects = ({
       setSelectedProjects(allUuids)
       setAreAllSelected(true)
     }
+    console.log()
   }
 
   const handleSelect = (e, uuid, name) => {
@@ -57,7 +58,7 @@ const Projects = ({
         else return [...prevSelectedProjects, uuid]
       })
     } else {
-      navigate(`/projects/${name}/${uuid}`)
+      navigate(`/projects/${name.replace(/\s+/g, "-")}/${uuid}`)
     }
   }
 

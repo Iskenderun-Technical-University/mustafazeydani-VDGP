@@ -13,9 +13,9 @@ import moment from "moment";
 
 function Single({ fetching, setFetching }) {
 
-  const url = window.location.href;
-  const [, temp, project_uuid] = url.match(/\/([^/]+)\/([\w-]+)$/);
-  const project_name = decodeURIComponent(temp);
+  const url = window.location.href
+  const [, temp, project_uuid] = url.match(/\/([^/]+)\/([\w-]+)$/)
+  const project_name = temp.replace(/-/g, " ")
 
   const [err, setError] = useState(null);
   const [tasks, setTasks] = useState([]);

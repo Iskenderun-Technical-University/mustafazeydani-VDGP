@@ -154,11 +154,14 @@ a {
 
 .add-note {
     position: absolute;
+    font-size: 1em;
+    background: none;
     right: 1.3em;
     line-height: .7;
     padding: .3em;
     border-radius: 50%;
     border: 2px solid transparent;
+    transition: var(--transition);
 }
 
 .add-note:hover {
