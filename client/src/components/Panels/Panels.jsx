@@ -14,7 +14,7 @@ import {
 import AddProject from '../modals/AddProject/AddProject'
 import { AuthContext } from '../../context/authContext'
 
-const Panels = ({ projects, setProjects, selectedMenu, setSelectedMenu}) => {
+const Panels = ({allProjects, setAllProjects, selectedMenu, setSelectedMenu}) => {
 
   const [showAddProject, setShowAddProject] = useState(false)
 
@@ -30,7 +30,13 @@ const Panels = ({ projects, setProjects, selectedMenu, setSelectedMenu}) => {
 
   return (
     <div className='panels'>
-      {showAddProject && <AddProject projects={projects} setProjects={setProjects} setShowDialog={setShowAddProject} />}
+      {showAddProject && 
+        <AddProject 
+          allProjects={allProjects}
+          setAllProjects={setAllProjects}
+          setShowDialog={setShowAddProject} 
+      />
+      }
       <div className="leftpanel">
         
         <div className="leftpanel-links">

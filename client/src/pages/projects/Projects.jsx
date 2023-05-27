@@ -9,19 +9,23 @@ import moment from "moment"
 import ConfirmDelete from "../../components/modals/ConfirmDelete/ConfirmDelete"
 
 const Projects = ({
-  projects,
-  setProjects,
+  allProjects,
+  setAllProjects,
   selectedProjects,
   setSelectedProjects,
   fetching,
   setFetching,
+  sortBy,
+  setSortBy
 }) => {
   const navigate = useNavigate()
 
   const [err, setError] = useState(null)
   const [areAllSelected, setAreAllSelected] = useState(false)
   const [toggledCheckboxes, setToggledCheckboxes] = useState({})
-
+  const [projects, setProjects] = useState([])
+  
+  
   const handleSelectAll = () => {
     const allUuids = projects.map((project) => project.uuid)
     const isAllSelected = allUuids.every((uuid) =>
@@ -41,7 +45,6 @@ const Projects = ({
       setSelectedProjects(allUuids)
       setAreAllSelected(true)
     }
-    console.log()
   }
 
   const handleSelect = (e, uuid, name) => {
@@ -67,32 +70,46 @@ const Projects = ({
     const fetchData = async () => {
       try {
         const res = await axios.get("/projects")
-        setProjects(res.data)
-      } catch (err) {
+        setAllProjects(res.data)
+      } 
+      catch (err) {
         setError("Error fetching projects")
       }
       setFetching(false)
     }
     fetchData()
-  }, [setProjects, setFetching])
+  }, [setProjects, setFetching, setAllProjects])
 
-  const [selectedOption, setSelectedOption] = useState("name")
-  const handleChange = (event) => {
-    setSelectedOption(event.target.value)
-  };
+  useEffect(()=>{
+    setProjects([...allProjects])
+  }, [allProjects])
+
+  const handleSort = (param) => {
+    if(param==="creation-newest")
+      projects.sort((a,b)=> moment(a.creation_date).isBefore(moment(b.creation_date)) ? 1 : -1)
+    else if(param==="creation-oldest")
+      projects.sort((a,b)=> moment(a.creation_date).isAfter(moment(b.creation_date)) ? 1 : -1)
+    else if(param==="name-ascending")
+      projects.sort((a,b)=> a.name > b.name ? 1 : -1)
+    else if(param==="name-descending")
+      projects.sort((a,b)=> a.name < b.name ? 1 : -1)
+  }
+
+  handleSort(sortBy)
 
   const [showConfirmDelete, setShowConfirmDelete] = useState(false)
   const handleDeleteButtonClick = () => {
     if (selectedProjects.length !== 0) setShowConfirmDelete(true)
-  };
+  }
 
   return (
     <div className="projects">
       {showConfirmDelete && (
         <ConfirmDelete
-          setProjects={setProjects}
+          setAllProjects={setAllProjects}
           selectedProjects={selectedProjects}
           setShowConfirmDelete={setShowConfirmDelete}
+          setSelectedProjects={setSelectedProjects}
           setAreAllSelected={setAreAllSelected}
           type={"project"}
         />
@@ -118,24 +135,32 @@ const Projects = ({
         <div className="filter">
           <p className="filter-type">Category</p>
           <select
-            value={selectedOption}
-            onChange={handleChange}
+            // value={""}
+            // onChange={""}
             className="select"
           >
-            <option value="name">By name</option>
-            <option value="due-time">By due time</option>
+            <option value="All">All</option>
+            <option value="Web Development">Web Development</option>
+            <option value="Cyber Security">Cyber Security</option>
+            <option value="Mobile App Development">Mobile App Development</option>
+            <option value="Blockchain">Blockchain</option>
+            <option value="Artificial Intelligence">Artificial Intelligence</option>
+            <option value="Game Development">Game Development</option>  
+            <option value="Other">Other</option>  
           </select>
         </div>
 
         <div className="filter">
           <p className="filter-type">Sort By</p>
           <select
-            value={selectedOption}
-            onChange={handleChange}
+            value={sortBy}
+            onChange={(e)=>setSortBy(e.target.value)}
             className="select"
           >
-            <option value="name">By name</option>
-            <option value="due-time">By due time</option>
+            <option value="creation-newest">Creation Date (Newest)</option>
+            <option value="creation-oldest">Creation Date (Oldest)</option>
+            <option value="name-ascending">Name (ascending)</option>
+            <option value="name-descending">Name (descending)</option>
           </select>
         </div>
       </div>

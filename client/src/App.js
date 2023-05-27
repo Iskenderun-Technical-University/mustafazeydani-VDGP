@@ -11,10 +11,15 @@ import NotFoundPage from "./components/NotFound";
 import { useContext, useState, useEffect } from "react";
 import { AuthContext } from "./context/authContext";
 
-const Layout = ({ projects, setProjects, selectedMenu, setSelectedMenu }) => {
+const Layout = ({ allProjects, setAllProjects, selectedMenu, setSelectedMenu }) => {
   return (
     <>
-        <Panels projects={projects} setProjects={setProjects} selectedMenu={selectedMenu} setSelectedMenu={setSelectedMenu}/>
+        <Panels 
+          allProjects={allProjects} 
+          setAllProjects={setAllProjects} 
+          selectedMenu={selectedMenu} 
+          setSelectedMenu={setSelectedMenu}
+        />
         <div className="outlet">
           <Outlet />
         </div>
@@ -57,11 +62,13 @@ function App() {
     return () => window.removeEventListener('resize', flexFont)
   }, [])
   
-  const [projects, setProjects] = useState([])
+
+  const [allProjects, setAllProjects] = useState([])
   const [fetching, setFetching] = useState(true)
   const [selectedProjects, setSelectedProjects] = useState([])
   const [selectedMenu, setSelectedMenu] = useState(null)
-
+  const [sortBy, setSortBy] = useState("creation-newest")
+  
   return (
     <div className="app">
       <div className="container">
@@ -70,7 +77,12 @@ function App() {
             <Route path="*" element={<NotFoundPage/>} />
             <Route path="/" element={
               <ProtectedRoute>
-                <Layout projects={projects} setProjects={setProjects} selectedMenu={selectedMenu} setSelectedMenu={setSelectedMenu}/>
+                <Layout 
+                  allProjects={allProjects}
+                  setAllProjects={setAllProjects} 
+                  selectedMenu={selectedMenu} 
+                  setSelectedMenu={setSelectedMenu}
+                />
               </ProtectedRoute>
             }>
               <Route path="/" element={<Home />}/>
@@ -78,12 +90,14 @@ function App() {
                 path="/projects" 
                 element={
                   <Projects 
-                    projects={projects} 
-                    setProjects={setProjects} 
+                    allProjects={allProjects}
+                    setAllProjects={setAllProjects}
                     selectedProjects={selectedProjects} 
                     setSelectedProjects={setSelectedProjects} 
                     fetching={fetching} 
                     setFetching={setFetching}
+                    sortBy={sortBy}
+                    setSortBy={setSortBy}
                   />
                 }
               />

@@ -5,7 +5,7 @@ import axios from 'axios'
 import moment from "moment"
 import { v4 as uuidv4 } from "uuid"
 
-function AddProject({ projects, setProjects, setShowDialog, setAreAllSelected}) {
+function AddProject({ allProjects, setAllProjects, setShowDialog}) {
   const [inputs, setInputs] = useState({
     name:"",
     field:"",
@@ -29,13 +29,12 @@ function AddProject({ projects, setProjects, setShowDialog, setAreAllSelected}) 
         creation_date: moment(Date.now()).format("YYYY-MM-DD HH:mm:ss")
       }
       await axios.post("/projects", requestData)
-      setProjects([...projects, requestData])
+      setAllProjects([...allProjects, requestData])
     }
     catch(err) {
       //
     }
     setShowDialog(false)
-    setAreAllSelected(false)
   }
 
   return (
