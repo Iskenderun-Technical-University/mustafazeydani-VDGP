@@ -16,7 +16,9 @@ const Projects = ({
   fetching,
   setFetching,
   sortBy,
-  setSortBy
+  setSortBy,
+  filter,
+  setFilter
 }) => {
   const navigate = useNavigate()
 
@@ -95,7 +97,29 @@ const Projects = ({
       projects.sort((a,b)=> a.name < b.name ? 1 : -1)
   }
 
+  const handleFilter = (param) => {
+    if(param==="Web Development")
+      setProjects(allProjects.filter((project)=>project.field==="Web Development"))
+    else if(param==="Cyber Security")
+      setProjects(allProjects.filter((project)=>project.field==="Cyber Security"))
+    else if(param==="Mobile App Development")
+      setProjects(allProjects.filter((project)=>project.field==="Mobile App Development"))
+    else if(param==="Blockchain")
+      setProjects(allProjects.filter((project)=>project.field==="Blockchain"))
+    else if(param==="Artificial Intelligence")
+      setProjects(allProjects.filter((project)=>project.field==="Artificial Intelligence"))
+    else if(param==="Game Development")
+      setProjects(allProjects.filter((project)=>project.field==="Game Development"))
+    else if(param==="Other")
+      setProjects(allProjects.filter((project)=>project.field==="Other"))
+    else 
+      setProjects([...allProjects])
+  }
+
   handleSort(sortBy)
+  useEffect(()=>{
+    handleFilter(filter)
+  }, [filter, projects])
 
   const [showConfirmDelete, setShowConfirmDelete] = useState(false)
   const handleDeleteButtonClick = () => {
@@ -135,8 +159,8 @@ const Projects = ({
         <div className="filter">
           <p className="filter-type">Category</p>
           <select
-            // value={""}
-            // onChange={""}
+            value={filter}
+            onChange={(e)=>setFilter(e.target.value)}
             className="select"
           >
             <option value="All">All</option>

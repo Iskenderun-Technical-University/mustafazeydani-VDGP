@@ -68,6 +68,7 @@ function App() {
   const [selectedProjects, setSelectedProjects] = useState([])
   const [selectedMenu, setSelectedMenu] = useState(null)
   const [sortBy, setSortBy] = useState("creation-newest")
+  const [filter, setFilter] = useState("All")
   
   return (
     <div className="app">
@@ -98,6 +99,8 @@ function App() {
                     setFetching={setFetching}
                     sortBy={sortBy}
                     setSortBy={setSortBy}
+                    filter={filter}
+                    setFilter={setFilter}
                   />
                 }
               />
