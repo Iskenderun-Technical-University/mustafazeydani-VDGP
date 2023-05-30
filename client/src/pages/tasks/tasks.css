@@ -20,6 +20,10 @@
     margin-left: auto;
 }
 
+.tasks .select {
+    background: transparent;
+}
+
 .table-container {
     background-color: var(--color-variant);
     height: 100%;
@@ -148,4 +152,8 @@ p.Medium {
 
 p.High {
     background: red;
+}
+
+td.red {
+    color: red;
 }

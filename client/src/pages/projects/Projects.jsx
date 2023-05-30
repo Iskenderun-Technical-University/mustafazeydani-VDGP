@@ -15,10 +15,10 @@ const Projects = ({
   setSelectedProjects,
   fetching,
   setFetching,
-  sortBy,
-  setSortBy,
-  filter,
-  setFilter
+  projectSortBy,
+  setProjectSortBy,
+  projectFilter,
+  setProjectFilter
 }) => {
   const navigate = useNavigate()
 
@@ -98,28 +98,17 @@ const Projects = ({
   }
 
   const handleFilter = (param) => {
-    if(param==="Web Development")
-      setProjects(allProjects.filter((project)=>project.field==="Web Development"))
-    else if(param==="Cyber Security")
-      setProjects(allProjects.filter((project)=>project.field==="Cyber Security"))
-    else if(param==="Mobile App Development")
-      setProjects(allProjects.filter((project)=>project.field==="Mobile App Development"))
-    else if(param==="Blockchain")
-      setProjects(allProjects.filter((project)=>project.field==="Blockchain"))
-    else if(param==="Artificial Intelligence")
-      setProjects(allProjects.filter((project)=>project.field==="Artificial Intelligence"))
-    else if(param==="Game Development")
-      setProjects(allProjects.filter((project)=>project.field==="Game Development"))
-    else if(param==="Other")
-      setProjects(allProjects.filter((project)=>project.field==="Other"))
+    if(param!=="All")
+      setProjects(allProjects.filter((project)=>project.field===param))
     else 
       setProjects([...allProjects])
   }
 
-  handleSort(sortBy)
+  handleSort(projectSortBy)
+  
   useEffect(()=>{
-    handleFilter(filter)
-  }, [filter, projects])
+    handleFilter(projectFilter) // eslint-disable-next-line
+  }, [projectFilter, projects])
 
   const [showConfirmDelete, setShowConfirmDelete] = useState(false)
   const handleDeleteButtonClick = () => {
@@ -159,8 +148,8 @@ const Projects = ({
         <div className="filter">
           <p className="filter-type">Category</p>
           <select
-            value={filter}
-            onChange={(e)=>setFilter(e.target.value)}
+            value={projectFilter}
+            onChange={(e)=>setProjectFilter(e.target.value)}
             className="select"
           >
             <option value="All">All</option>
@@ -177,8 +166,8 @@ const Projects = ({
         <div className="filter">
           <p className="filter-type">Sort By</p>
           <select
-            value={sortBy}
-            onChange={(e)=>setSortBy(e.target.value)}
+            value={projectSortBy}
+            onChange={(e)=>setProjectSortBy(e.target.value)}
             className="select"
           >
             <option value="creation-newest">Creation Date (Newest)</option>

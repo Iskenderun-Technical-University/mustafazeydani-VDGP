@@ -64,11 +64,14 @@ function App() {
   
 
   const [allProjects, setAllProjects] = useState([])
+  const [allTasks, setAllTasks] = useState([])
   const [fetching, setFetching] = useState(true)
   const [selectedProjects, setSelectedProjects] = useState([])
   const [selectedMenu, setSelectedMenu] = useState(null)
-  const [sortBy, setSortBy] = useState("creation-newest")
-  const [filter, setFilter] = useState("All")
+  const [projectSortBy, setProjectSortBy] = useState("creation-newest")
+  const [projectFilter, setProjectFilter] = useState("All")
+  const [taskSortBy, setTaskSortBy] = useState("deadline-nearest")
+  const [taskFilter, setTaskFilter] = useState("All")
   
   return (
     <div className="app">
@@ -97,14 +100,27 @@ function App() {
                     setSelectedProjects={setSelectedProjects} 
                     fetching={fetching} 
                     setFetching={setFetching}
-                    sortBy={sortBy}
-                    setSortBy={setSortBy}
-                    filter={filter}
-                    setFilter={setFilter}
+                    projectSortBy={projectSortBy}
+                    setProjectSortBy={setProjectSortBy}
+                    projectFilter={projectFilter}
+                    setProjectFilter={setProjectFilter}
                   />
                 }
               />
-              <Route path="/tasks" element={<Tasks setSelectedMenu={setSelectedMenu}/>} />
+              <Route 
+                path="/tasks" 
+                element={
+                  <Tasks 
+                    setSelectedMenu={setSelectedMenu} 
+                    allTasks={allTasks} 
+                    setAllTasks={setAllTasks} 
+                    taskSortBy={taskSortBy}
+                    setTaskSortBy={setTaskSortBy}
+                    taskFilter={taskFilter}
+                    setTaskFilter={setTaskFilter}
+                  />
+                } 
+              />
               <Route path="/projects/:name/:uuid" element={<Single fetching={fetching} setFetching={setFetching}/>} />
             </Route>
               <Route path="/register" element={
