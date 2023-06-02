@@ -11,7 +11,7 @@ import ConfirmDelete from "../../components/modals/ConfirmDelete/ConfirmDelete";
 import Loader from "../../components/loader/Loader";
 import moment from "moment";
 
-function Single({ fetching, setFetching }) {
+function Single({ userStats, setUserStats, fetching, setFetching }) {
 
   const url = window.location.href
   const [, temp, project_uuid] = url.match(/\/([^/]+)\/([\w-]+)$/)
@@ -82,16 +82,24 @@ function Single({ fetching, setFetching }) {
 
     else if (e.target.dataset.id=== "to-done") {
       // Send task to Done from In Progress
-      await axios.put("/tasks", {status: "Done", uuid: uuid, type: "status"});
+      await axios.put("/tasks", {status: "Done", uuid: uuid, type: "status"}).then(()=>{
+        axios.put("/stats", {curr: userStats.completed_tasks, stat: "comp", op: "incr"})
+        axios.put("/stats", {curr: userStats.ongoing_tasks, stat: "ongo", op: "decr"})
+        setUserStats(prevStats => ({ ...prevStats, completed_tasks: prevStats.completed_tasks + 1, ongoing_tasks: prevStats.ongoing_tasks - 1 }))
+      });
       setDone([...done, inprogress.find((task) => task.uuid === uuid)]);
       setInProgress(inprogress.filter((task) => task.uuid !== uuid));
     } 
 
     else if (e.target.dataset.id === "done-to-in-progress") {
       // Send Task to In Progress from Done List
-      await axios.put("/tasks", {status: "Active", uuid: uuid, type: "status"});
-      setInProgress([...inprogress, done.find((task) => task.uuid === uuid)]);
-      setDone(done.filter((task) => task.uuid !== uuid));
+      await axios.put("/tasks", {status: "Active", uuid: uuid, type: "status"}).then(()=>{
+        axios.put("/stats", {curr: userStats.completed_tasks, stat: "comp", op: "decr"})
+        axios.put("/stats", {curr: userStats.ongoing_tasks, stat: "ongo", op: "incr"})
+        setUserStats(prevStats => ({ ...prevStats, completed_tasks: prevStats.completed_tasks - 1, ongoing_tasks: prevStats.ongoing_tasks + 1 }))
+      })
+      setInProgress([...inprogress, done.find((task) => task.uuid === uuid)])
+      setDone(done.filter((task) => task.uuid !== uuid))
     } 
 
     else if (e.target.dataset.id === "edit-task") {
@@ -135,6 +143,8 @@ function Single({ fetching, setFetching }) {
     <div className="single">
       {showConfirmDelete && (
         <ConfirmDelete
+          userStats={userStats}
+          setUserStats={setUserStats}
           setShowConfirmDelete={setShowConfirmDelete}
           taskDeleteUuid={taskDeleteUuid}
           setError={setError}
@@ -147,6 +157,8 @@ function Single({ fetching, setFetching }) {
           setShowAddTask={setShowAddTask}
           tasks={tasks}
           setTasks={setTasks}
+          userStats={userStats}
+          setUserStats={setUserStats}
           project_name={project_name}
           project_uuid={project_uuid}
         />

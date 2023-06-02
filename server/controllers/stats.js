@@ -33,5 +33,21 @@ export const getStats = (req, res) => {
 }
 
 export const setStats = (req, res) => {
+    const token = req.cookies.access_token
+    jwt.verify(token, "jwtkey", (err, userInfo)=>{
+        if(err) return res.status(403).json("Token is not valid!")
+        
+        let q
+        if(req.body.stat==="comp") {
+            q = "UPDATE user_stats SET completed_tasks = ? WHERE user_uuid = ?"
+        }
+        else if(req.body.stat==="ongo") {
+            q = "UPDATE user_stats SET ongoing_tasks = ? WHERE user_uuid = ?"
+        }
 
+        db.query(q, [req.body.op==="incr"?++req.body.curr:--req.body.curr, userInfo.uuid], (err)=>{
+            if(err) return res.send(err)
+            return res.json("Stats has been updated")
+        })
+    })
 }

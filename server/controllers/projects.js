@@ -18,18 +18,19 @@ export const addProject = (req, res)=>{
     const token = req.cookies.access_token
     jwt.verify(token, "jwtkey", (err, userInfo)=>{
         if(err) return res.status(403).json("Token is not valid!")
-        
+
         const q = "INSERT INTO projects VALUES(?)"
 
         const values = [
             req.body.uuid,
             userInfo.uuid,
-            req.body.neam,
+            req.body.name,
             req.body.field,
             req.body.description,
             req.body.creation_date
         ]
-        db.query(q, [values], (err, data)=>{
+
+        db.query(q, [values], (err)=>{
             if(err) return res.status(500).json(err)
             return res.json("Project has been created!")
         })

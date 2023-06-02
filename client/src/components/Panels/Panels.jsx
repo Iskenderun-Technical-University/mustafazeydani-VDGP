@@ -15,11 +15,12 @@ import axios from "axios";
 const Panels = ({
   allProjects,
   setAllProjects,
+  userStats,
+  setUserStats,
   selectedMenu,
-  setSelectedMenu,
+  setSelectedMenu
 }) => {
   const [showAddProject, setShowAddProject] = useState(false);
-  const [userStats, setUserStats] = useState({});
 
   useEffect(() => {
     const fetchStats = async () => {
@@ -116,7 +117,7 @@ const Panels = ({
               </div>
               <div className="ongoing_tasks">
                 <div className="content">
-                  <p>Ongoing Tasks</p>
+                  <p>Ongoing Tasks:</p>
                   <p>{ongoing_tasks}</p>
                 </div>
               </div>

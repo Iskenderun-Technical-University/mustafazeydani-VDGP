@@ -7,6 +7,8 @@ function AddTask({
   setShowAddTask,
   tasks,
   setTasks,
+  userStats,
+  setUserStats,
   project_name,
   project_uuid,
 }) {
@@ -34,7 +36,10 @@ function AddTask({
         status: "Waiting",
         project_name: project_name
       };
-      await axios.post("/tasks", requestData);
+      await axios.post("/tasks", requestData).then(()=>{
+        axios.put("/stats", {curr: userStats.ongoing_tasks, stat: "ongo", op: "incr"})
+        setUserStats(prevStats => ({ ...prevStats, ongoing_tasks: prevStats.ongoing_tasks + 1 }))
+      });
       setTasks([...tasks, requestData]);
     } catch (err) {
       //

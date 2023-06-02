@@ -11,12 +11,14 @@ import NotFoundPage from "./components/NotFound";
 import { useContext, useState, useEffect } from "react";
 import { AuthContext } from "./context/authContext";
 
-const Layout = ({ allProjects, setAllProjects, selectedMenu, setSelectedMenu }) => {
+const Layout = ({ allProjects, setAllProjects, userStats, setUserStats, selectedMenu, setSelectedMenu}) => {
   return (
     <>
         <Panels 
           allProjects={allProjects} 
           setAllProjects={setAllProjects}
+          userStats={userStats}
+          setUserStats={setUserStats}
           selectedMenu={selectedMenu} 
           setSelectedMenu={setSelectedMenu}
         />
@@ -65,6 +67,7 @@ function App() {
 
   const [allProjects, setAllProjects] = useState([])
   const [allTasks, setAllTasks] = useState([])
+  const [userStats, setUserStats] = useState({})
   const [fetching, setFetching] = useState(true)
   const [selectedProjects, setSelectedProjects] = useState([])
   const [selectedMenu, setSelectedMenu] = useState(null)
@@ -84,6 +87,8 @@ function App() {
                 <Layout 
                   allProjects={allProjects}
                   setAllProjects={setAllProjects}
+                  userStats={userStats}
+                  setUserStats={setUserStats}
                   selectedMenu={selectedMenu} 
                   setSelectedMenu={setSelectedMenu}
                 />
@@ -121,7 +126,7 @@ function App() {
                   />
                 } 
               />
-              <Route path="/projects/:name/:uuid" element={<Single fetching={fetching} setFetching={setFetching}/>} />
+              <Route path="/projects/:name/:uuid" element={<Single userStats={userStats} setUserStats={setUserStats} fetching={fetching} setFetching={setFetching}/>} />
             </Route>
               <Route path="/register" element={
                 <ProtectedRoute>
