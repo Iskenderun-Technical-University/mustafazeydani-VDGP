@@ -16,7 +16,7 @@ const Layout = ({ allProjects, setAllProjects, selectedMenu, setSelectedMenu }) 
     <>
         <Panels 
           allProjects={allProjects} 
-          setAllProjects={setAllProjects} 
+          setAllProjects={setAllProjects}
           selectedMenu={selectedMenu} 
           setSelectedMenu={setSelectedMenu}
         />
@@ -83,7 +83,7 @@ function App() {
               <ProtectedRoute>
                 <Layout 
                   allProjects={allProjects}
-                  setAllProjects={setAllProjects} 
+                  setAllProjects={setAllProjects}
                   selectedMenu={selectedMenu} 
                   setSelectedMenu={setSelectedMenu}
                 />

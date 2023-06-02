@@ -39,17 +39,16 @@ ALTER TABLE `tasks`
 ALTER TABLE `tasks`
     ADD INDEX `tasks_project_name_index`(`project_name`);
 
-CREATE TABLE `project_stats`(
-    `uuid` VARCHAR(36) NOT NULL,
+CREATE TABLE `user_stats`(
     `user_uuid` VARCHAR(36) NOT NULL,
-    `total` INT NOT NULL,
-    `completed` INT NOT NULL,
-    `in_progress` INT NOT NULL,
-    `out_of_schedule` INT NOT NULL
+    `completed_projects` INT NOT NULL,
+    `completed_tasks` INT NOT NULL,
+    `ongoing_tasks` INT NOT NULL,
+    `overdue_tasks` INT NOT NULL
 );
 
-ALTER TABLE `project_stats`
-    ADD PRIMARY KEY(`uuid`);
+ALTER TABLE `user_stats` 
+    ADD PRIMARY KEY(`user_uuid`);
 
 CREATE TABLE `users`(
     `uuid` VARCHAR(36) NOT NULL,
@@ -83,7 +82,8 @@ ALTER TABLE `projects`
     ON DELETE CASCADE;
 
 ALTER TABLE `tasks`
-    ADD CONSTRAINT `tasks_project_name_foreign` 
+    ADD CONSTRAINT 
+    `tasks_project_name_foreign` 
     FOREIGN KEY(`project_name`) 
     REFERENCES `projects`(`name`)
     ON DELETE CASCADE;
@@ -95,9 +95,9 @@ ALTER TABLE `notes`
     REFERENCES `users`(`uuid`)
     ON DELETE CASCADE;
     
-ALTER TABLE `project_stats`
+ALTER TABLE `user_stats` 
     ADD CONSTRAINT 
-    `project_stats_user_uuid_foreign` 
+    `users_stats_user_uuid_foreign` 
     FOREIGN KEY(`user_uuid`) 
     REFERENCES `users`(`uuid`)
     ON DELETE CASCADE;

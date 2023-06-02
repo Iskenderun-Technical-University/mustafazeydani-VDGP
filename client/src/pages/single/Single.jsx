@@ -89,7 +89,6 @@ function Single({ fetching, setFetching }) {
 
     else if (e.target.dataset.id === "done-to-in-progress") {
       // Send Task to In Progress from Done List
-      // console.log("Hello")
       await axios.put("/tasks", {status: "Active", uuid: uuid, type: "status"});
       setInProgress([...inprogress, done.find((task) => task.uuid === uuid)]);
       setDone(done.filter((task) => task.uuid !== uuid));

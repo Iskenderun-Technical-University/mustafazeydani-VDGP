@@ -44,7 +44,10 @@ const Register = () => {
             throw new Error("Password must contain at least one uppercase, lowecase and number")
 
           try {
-            await axios.post("/auth/register", {uuid: uuidv4(), ...inputs})
+            const uuid = uuidv4()
+            await axios.post("/auth/register", {uuid: uuid, ...inputs}).then(()=>{
+              axios.post("/stats", {uuid: uuid})
+            })
             navigate("/login")
           }
           catch(err) {

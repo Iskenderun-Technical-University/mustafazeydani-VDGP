@@ -115,16 +115,16 @@ a {
     margin-right: 10px;
 }
 
-.total-projects::before {
+.completed_projects::before {
     background-color: rgb(22, 131, 204);
 }
-.completed::before {
-    background-color: rgb(75, 218, 28);
+.completed_tasks::before {
+    background-color: rgb(107, 28, 218);
 }
-.in-progress::before {
-    background-color: rgb(222, 238, 46);
+.ongoing_tasks::before {
+    background-color: rgb(100, 238, 46);
 }
-.out-of-schedule::before {
+.overdue_tasks::before {
     background-color: rgb(252, 71, 54);
 }
 

@@ -24,7 +24,7 @@ export const addProject = (req, res)=>{
         const values = [
             req.body.uuid,
             userInfo.uuid,
-            req.body.name,
+            req.body.neam,
             req.body.field,
             req.body.description,
             req.body.creation_date
