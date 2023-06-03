@@ -11,12 +11,14 @@ import NotFoundPage from "./components/NotFound";
 import { useContext, useState, useEffect } from "react";
 import { AuthContext } from "./context/authContext";
 
-const Layout = ({ allProjects, setAllProjects, userStats, setUserStats, selectedMenu, setSelectedMenu}) => {
+const Layout = ({ allProjects, setAllProjects, allNotes, setAllNotes, userStats, setUserStats, selectedMenu, setSelectedMenu}) => {
   return (
     <>
         <Panels 
           allProjects={allProjects} 
           setAllProjects={setAllProjects}
+          allNotes={allNotes}
+          setAllNotes={setAllNotes}
           userStats={userStats}
           setUserStats={setUserStats}
           selectedMenu={selectedMenu} 
@@ -67,6 +69,7 @@ function App() {
 
   const [allProjects, setAllProjects] = useState([])
   const [allTasks, setAllTasks] = useState([])
+  const [allNotes, setAllNotes] = useState([])
   const [userStats, setUserStats] = useState({})
   const [fetching, setFetching] = useState(true)
   const [selectedProjects, setSelectedProjects] = useState([])
@@ -87,6 +90,8 @@ function App() {
                 <Layout 
                   allProjects={allProjects}
                   setAllProjects={setAllProjects}
+                  allNotes={allNotes}
+                  setAllNotes={setAllNotes}
                   userStats={userStats}
                   setUserStats={setUserStats}
                   selectedMenu={selectedMenu} 

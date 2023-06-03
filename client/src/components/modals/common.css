@@ -11,6 +11,7 @@
 .modal-content {
     position: relative;
     display: flex;
+    justify-content: space-around;
     flex-direction: column;
     gap: 1em;
     width: 90%;

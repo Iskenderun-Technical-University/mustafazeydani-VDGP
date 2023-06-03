@@ -5,19 +5,20 @@ import axios from 'axios'
 import moment from "moment"
 import { v4 as uuidv4 } from "uuid"
 
-function AddProject({ allProjects, setAllProjects, setShowDialog}) {
+function AddProject({ allProjects, setAllProjects, setShowAddProject}) {
   const [inputs, setInputs] = useState({
     name:"",
     field:"",
     description:""
   })
+  const [error, setError] = useState(null)
 
   const handleChange = (e) => {
     setInputs(prev=>({...prev, [e.target.name]: e.target.value}))
   }
 
   const handleCancelClick = () =>{
-    setShowDialog(false)
+    setShowAddProject(false)
   }
 
   const handleSubmit = async e => {
@@ -28,13 +29,22 @@ function AddProject({ allProjects, setAllProjects, setShowDialog}) {
         ...inputs,
         creation_date: moment(Date.now()).format("YYYY-MM-DD HH:mm:ss")
       }
+      validateInput()
       await axios.post("/projects", requestData)
       setAllProjects([...allProjects, requestData])
+      setShowAddProject(false)
     }
     catch(err) {
-      //
+      setError(err.message)
     }
-    setShowDialog(false)
+  }
+
+  const validateInput = () => {
+    const {name, field} = inputs
+    if(name==="")
+      throw new Error("Project's name is required!")
+    else if(field==="")
+      throw new Error("Project's field is required!")
   }
 
   return (
@@ -43,7 +53,7 @@ function AddProject({ allProjects, setAllProjects, setShowDialog}) {
         <form>
           <h2>Create a project</h2>
           <div className="modal-content">
-            <label htmlFor="projectname">Project Name</label>
+            <label htmlFor="projectname">Project Name *</label>
             <input
               name="name" 
               onChange={handleChange} 
@@ -51,8 +61,8 @@ function AddProject({ allProjects, setAllProjects, setShowDialog}) {
               type="text" 
               placeholder="Project name" 
             />
-            <p>Select project's field</p>
-            <select name="field" onChange={handleChange}>
+            <label htmlFor="project-field">Select project's field *</label>
+            <select id="project-field" name="field" onChange={handleChange}>
               <option value="">-- Select an option --</option>
               <option value='Web Development'>Web Development</option>
               <option value='Cyber Security'>Cyber Security</option>
@@ -62,14 +72,15 @@ function AddProject({ allProjects, setAllProjects, setShowDialog}) {
               <option value='Game Development'>Game Development</option>
               <option value='Other'>Other</option>
             </select>
-            <p>Description</p>
+            <label htmlFor="project-description">Description</label>
             <textarea 
-              name="description" 
+              name="description"
+              id="project-description" 
               onChange={handleChange}
               rows="4"
               placeholder="Enter description..."
             />
-
+            {error&&<p className="error">{error}</p>}
             <div className="modal-buttons">
               <button className='btn' onClick={handleCancelClick}>Cancel</button>
               <button className='btn btn-main' onClick={handleSubmit}>Add</button>

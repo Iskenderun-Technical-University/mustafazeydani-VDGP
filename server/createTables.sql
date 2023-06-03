@@ -16,6 +16,7 @@ ALTER TABLE `projects`
 CREATE TABLE `notes`(
     `uuid` VARCHAR(36) NOT NULL,
     `user_uuid` VARCHAR(36) NOT NULL,
+    `title` VARCHAR(25) NOT NULL,
     `content` TEXT NOT NULL
 );
 

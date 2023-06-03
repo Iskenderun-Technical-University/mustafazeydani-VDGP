@@ -11,7 +11,7 @@ const Register = () => {
     password:""
   })
 
-  const [err, setError] = useState(null)
+  const [error, setError] = useState(null)
 
   const navigate = useNavigate()
 
@@ -35,6 +35,7 @@ const Register = () => {
           throw new Error("Email field is required!")
         else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email))
           throw new Error("Invalid email address")
+
         try {
           if(!password)
             throw new Error("Password field is required!")
@@ -89,7 +90,7 @@ const Register = () => {
           onChange={handleChange}
         />
         <button onClick={handleSubmit} className='btn'>Register</button>
-        {err && <p>{err}</p>}
+        {error && <p>{error}</p>}
         <span>Already have an account? <Link to="/login">Login instead</Link></span>
       </form>
     </div>

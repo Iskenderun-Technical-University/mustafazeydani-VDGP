@@ -5,7 +5,6 @@
     transform: translate(-50%, -50%);
     background-color: white;
     width: 500px;
-    aspect-ratio: 1;
     border-radius: 20px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); /* shadow effect */
     z-index: 3;
@@ -37,7 +36,13 @@
     border: 1px solid var(--color-darkgrey);
     border-radius: 4px;
     resize: none;
-  }
+}
+
+.add-project .error {
+    color: red;
+    text-align: center;
+    font-size: .8em;
+}
 
 .add-project input:focus {
     outline: none;
@@ -51,7 +56,7 @@
 
 .modal-buttons {
     width: 100%;
-    position: absolute;
+    position: relative;
     display: flex;
     justify-content: space-around;
     align-items: center;

@@ -105,7 +105,7 @@ function Tasks({setSelectedMenu, allTasks, setAllTasks, taskSortBy, setTaskSortB
       </div>
       
       <div className="table-container">
-        {fetching?
+        {fetching && allTasks.length===0?
           <Loader/>:
           err?
           <p className='error'>Error fetching tasks</p>:

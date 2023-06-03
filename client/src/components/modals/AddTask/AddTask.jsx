@@ -19,7 +19,9 @@ function AddTask({
     task: "",
     deadline: "",
     priority: "",
-  });
+  })
+  const [error, setError] = useState(null)
+
   const handleChange = (e) => {
     setInputs((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
@@ -31,13 +33,15 @@ function AddTask({
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
+      validateInput()
+
       const requestData = {
         uuid: uuidv4(),
         project_uuid: project_uuid,
         ...inputs,
         status: "Waiting",
         project_name: project_name,
-      };
+      }
 
       await axios.post("/tasks", requestData).then(() => {
         axios.put("/stats", {
@@ -55,16 +59,28 @@ function AddTask({
           overdue_tasks: moment(inputs.deadline).isBefore(moment())
             ? prevStats.overdue_tasks + 1
             : prevStats.overdue_tasks,
-        }));
-      });
+        }))
+      })
+
       projCompleted && setProjCompleted(false)
+
       setAllTasks((prevState) => [...prevState, requestData]);
       setWaiting((prevState) => [...prevState, requestData]);
+      setShowAddTask(false)
     } catch (err) {
-      //
+      setError(err.message)
     }
-    setShowAddTask(false);
-  };
+  }
+
+  const validateInput = () => {
+    const {task, deadline, priority} = inputs
+    if(!task)
+      throw new Error("Task is required!")
+    else if(!deadline)
+      throw new Error("Deadline is required")
+    else if(!priority)
+      throw new Error("Priotiry is required!")
+  }
 
   return (
     <div className="add-task modal-back">
@@ -72,26 +88,30 @@ function AddTask({
         <form>
           <h2>Create a task</h2>
           <div className="modal-content">
-            <label htmlFor="task">Task</label>
+            <label htmlFor="task">Enter a task *</label>
             <input
               name="task"
-              onChange={handleChange}
               id="task"
+              onChange={handleChange}
               type="text"
               placeholder="Task"
             />
+            <label htmlFor="deadline">Choose deadline *</label>
             <input
               name="deadline"
+              id="deadline"
               onChange={handleChange}
               type="date"
               placeholder="Task"
             />
-            <select name="priority" onChange={handleChange}>
+            <label htmlFor="priority">Choose priority *</label>
+            <select name="priority" id="priority" onChange={handleChange}>
               <option value="">-- Select an option --</option>
               <option value="Low">Low</option>
               <option value="Medium">Medium</option>
               <option value="High">High</option>
             </select>
+            {error&&<p className="error">{error}</p>}
             <div className="modal-buttons">
               <button className="btn" onClick={handleCancelClick}>
                 Cancel

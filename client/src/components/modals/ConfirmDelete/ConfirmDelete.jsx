@@ -7,6 +7,7 @@ import "../common.css"
 function ConfirmDelete({
   userStats, setUserStats, // User Stats
   setWaiting, taskToDelete, allTasks, // Tasks 
+  noteToDelete, setAllNotes, // Notes
   setAllProjects, selectedProjects, setSelectedProjects, setAreAllSelected, // Projects
   setError, setShowConfirmDelete, type // Common
 }) {
@@ -18,16 +19,24 @@ function ConfirmDelete({
   const handleSubmit = async () => {
     if(type==="project") { // delete project
       try{
-        const deletedTasksCount = allTasks.filter((task)=> selectedProjects.includes(task.project_uuid) && task.status!=="Done").length
+        const deletedOngoingTasksCount = allTasks.filter((task)=> 
+          selectedProjects.includes(task.project_uuid) && task.status!=="Done"
+        ).length
+        const deletedOverdueTasksCount = allTasks.filter((task)=>
+          selectedProjects.includes(task.project_uuid) && moment(task.deadline).isBefore(moment())).length
         await axios.delete("/projects", {params: { uuids: selectedProjects }})
-        axios.put("/stats", {curr: userStats.ongoing_tasks, stat: "ongo", op: "decr", count: deletedTasksCount})
-        setUserStats(prevStats => ({ ...prevStats, ongoing_tasks: prevStats.ongoing_tasks - deletedTasksCount }))
+        axios.put("/stats", {curr: userStats.ongoing_tasks, stat: "ongo", op: "decr", count: deletedOngoingTasksCount})
+        setUserStats(prevStats => ({ 
+          ...prevStats, 
+          ongoing_tasks: prevStats.ongoing_tasks - deletedOngoingTasksCount,
+          overdue_tasks: prevStats.overdue_tasks - deletedOverdueTasksCount 
+        }))
         setAllProjects((prevProjects) =>
           prevProjects.filter((project) => !selectedProjects.includes(project.uuid))
         )
       }
       catch(err) {
-        setError(err.response.message)
+        setError(err.message)
       }
       setSelectedProjects([])
       setAreAllSelected(false)
@@ -48,7 +57,17 @@ function ConfirmDelete({
         setWaiting((prevTasks) => prevTasks.filter((task) => task.uuid !== taskToDelete.uuid))
       }
       catch(err) {
-        setError(err.response.message)
+        setError(err.message)
+      }
+    }
+
+    else if(type==="note") { // delete note
+      try {
+        await axios.delete("/notes", {params: { uuid: noteToDelete }})
+        setAllNotes((prevNotes)=>prevNotes.filter((note)=>note.uuid!==noteToDelete))
+      }
+      catch(err) {
+        setError(err.message)
       }
     }
     setShowConfirmDelete(false)

@@ -3,24 +3,35 @@ import "./panels.css";
 import { Link } from "react-router-dom";
 import Logo from "../../assets/logo.svg";
 import User from "../../assets/user.svg";
+import { IoCheckmarkDoneOutline } from "react-icons/io5";
 import {
   AiFillDelete,
-  AiFillEdit
+  AiOutlinePlus
 } from "react-icons/ai";
 import { ImExit } from "react-icons/im";
 import AddProject from "../modals/AddProject/AddProject";
+import AddNote from "../modals/AddNote/AddNote";
 import { AuthContext } from "../../context/authContext";
 import axios from "axios";
+import ConfirmDelete from "../modals/ConfirmDelete/ConfirmDelete";
 
 const Panels = ({
   allProjects,
   setAllProjects,
+  allNotes,
+  setAllNotes,
   userStats,
   setUserStats,
   selectedMenu,
   setSelectedMenu
 }) => {
-  const [showAddProject, setShowAddProject] = useState(false);
+  const [showAddProject, setShowAddProject] = useState(false)
+  const [showAddNote, setShowAddNote] = useState(false)
+  const [showConfirmDelete, setShowConfirmDelete] = useState(false)
+  const [clickedNote, setClickedNote] = useState("")
+  const [noteContent, setNoteContent] = useState("")
+  const [noteToDelete, setNoteToDelete] = useState()
+  const [error, setError] = useState(null)
 
   useEffect(() => {
     const fetchStats = async () => {
@@ -31,25 +42,85 @@ const Panels = ({
       setUserStats({...statsRes.data, overdue_tasks: overdueRes.data.overdue_count});
     }
     fetchStats();
-  }, [setUserStats]);
+  }, [setUserStats])
+
+  useEffect(()=> {
+    const fetchNotes = async () => {
+      const res = await axios.get("/notes")
+      setAllNotes(res.data)
+    }
+    fetchNotes()
+  }, [setAllNotes])
 
   const handleSelect = (menu) => {
-    setSelectedMenu(menu);
-  };
+    setSelectedMenu(menu)
+  }
 
   const handleCreateProjectClick = () => {
-    setShowAddProject(true);
-  };
+    setShowAddProject(true)
+  }
 
-  const { currentUser, logout } = useContext(AuthContext);
+  const handleDone = async () => {
+    try {
+      await axios.put("/notes", {content: noteContent, uuid: clickedNote})
+      const editedNote = allNotes.filter((note)=>note.uuid === clickedNote)[0]
+      editedNote.content = noteContent
+      setAllNotes(allNotes.map((note) => {
+        if(note.uuid===clickedNote)
+          return editedNote
+        else
+          return note
+      }))
+      setClickedNote(null)
+    }
+    catch(err) {
+      setError(err.message)
+    }
+  }
+  const handleCreateNoteClick = () => {
+    setShowAddNote(true)
+  }
+  const handleChange = (e) => {
+    setNoteContent(e.target.value)
+  }
+ 
+  const handleNoteClick = (e, content, uuid) => {
+    if(e.target.dataset.id === "view-note") {
+      setClickedNote(uuid)
+      setNoteContent(content)
+    }
+    else if(e.target.dataset.id === "delete-note") {
+      setShowConfirmDelete(true)
+      setNoteToDelete(uuid)
+    }
+  }
+
+  const { currentUser, logout } = useContext(AuthContext)
 
   return (
     <div className="panels">
-      {showAddProject && (
+      {showAddProject 
+      ? (
         <AddProject
           allProjects={allProjects}
           setAllProjects={setAllProjects}
-          setShowDialog={setShowAddProject}
+          setShowAddProject={setShowAddProject}
+        />
+      ) 
+      : showAddNote 
+      ?(
+        <AddNote
+          setShowAddNote={setShowAddNote}
+          setAllNotes={setAllNotes}
+        />
+      )
+      : showConfirmDelete 
+      && (
+        <ConfirmDelete 
+          type={"note"}
+          setAllNotes={setAllNotes}
+          noteToDelete={noteToDelete}
+          setShowConfirmDelete={setShowConfirmDelete}
         />
       )}
       <div className="leftpanel">
@@ -136,29 +207,24 @@ const Panels = ({
         <div className="notes">
           <div className="notes-header">
             <p>Notes</p>
-            <button className="add-note">+</button>
+            {clickedNote && (<button className="notes-header-icons" onClick={handleDone}><IoCheckmarkDoneOutline /></button>)}
+            <button className="notes-header-icons" onClick={handleCreateNoteClick}><AiOutlinePlus /></button>
           </div>
-          <div className="notes-content">
-            <div className="note btn">
-              <p className="note-title">Hello</p>
-              <AiFillEdit className="note-icons" />
-              <AiFillDelete className="note-icons" />
-            </div>
-            <div className="note btn">
-              <p className="note-title">Hello</p>
-              <AiFillEdit className="note-icons" />
-              <AiFillDelete className="note-icons" />
-            </div>
-            <div className="note btn">
-              <p className="note-title">Hello</p>
-              <AiFillEdit className="note-icons" />
-              <AiFillDelete className="note-icons" />
-            </div>
-            <div className="note btn">
-              <p className="note-title">Hello</p>
-              <AiFillEdit className="note-icons" />
-              <AiFillDelete className="note-icons" />
-            </div>
+          <div className="notes-container">
+            {clickedNote
+            ?(
+              <textarea className="note-content" value={noteContent} onChange={handleChange}>Hello</textarea>
+            )
+            :
+            allNotes.map((note) => {
+              const {uuid, title, content} = note
+              return (
+                <div className="note btn" data-id="view-note" key={uuid} onClick={(e) => handleNoteClick(e, content, uuid)}>
+                  <p className="note-title">{title}</p>
+                  <button data-id="delete-note" className="note-icon-btn"><AiFillDelete className="note-icon"/></button>
+                </div>
+              )
+            })}
           </div>
         </div>
       </div>

@@ -1,4 +1,4 @@
-.add-task .modal {
+.add-note .modal {
     position: fixed;
     top: 50%;
     left: 50%;
@@ -10,39 +10,37 @@
     z-index: 3;
 }
 
-.add-task form {
+.add-note form {
     height: 100%;
     position: relative;
     display: flex;
     flex-direction: column;
 }
 
-.add-task h2 {
+.add-note h2 {
     color: var(--color-primary);
     text-align: center;
     margin: 1em;
 }
 
-.add-task input[type="text"] {
+.add-note input[type="text"] {
     border: 1px solid transparent;
     padding: 1em 1em;
     border-bottom: 1px solid var(--color-darkgrey) ;
 }
 
-.add-task input[type="text"]:focus {
+.add-note input[type="text"]:focus {
     outline: none;
     border: 1px solid var(--color-primary);
     box-shadow: 0 0 10px var(--color-primary);
 }
 
-.add-task .error {
+.add-note .error {
     color: red;
     font-size: .8em;
     text-align: center;
 }
 
-.add-task .modal-buttons {
+.add-note .modal-buttons {
     margin-top: 1em;
 }
-
-

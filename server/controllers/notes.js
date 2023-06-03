@@ -1,11 +1,11 @@
 import {db} from "../db.js"
 import jwt from "jsonwebtoken"
 
-export const getProjects = (req, res)=>{
+export const getNotes = (req, res) => {
     const token = req.cookies.access_token
     jwt.verify(token, "jwtkey", (err, userInfo)=>{
         if(err) return res.status(403).json("Token is not valid!")
-        const q = "SELECT * FROM projects WHERE `user_uuid` = ?"
+        const q = "SELECT * FROM notes WHERE `user_uuid` = ?"
 
         db.query(q, [userInfo.uuid], (err, data)=>{
             if(err) return res.send(err)
@@ -15,33 +15,41 @@ export const getProjects = (req, res)=>{
     })
 }
 
-export const addProject = (req, res)=>{
+export const addNote = (req, res) => { 
     const token = req.cookies.access_token
     jwt.verify(token, "jwtkey", (err, userInfo)=>{
         if(err) return res.status(403).json("Token is not valid!")
 
-        const q = "INSERT INTO projects VALUES(?)"
+        const q = "INSERT INTO notes VALUES(?)"
 
         const values = [
             req.body.uuid,
             userInfo.uuid,
-            req.body.name,
-            req.body.field,
-            req.body.description,
-            req.body.creation_date
+            req.body.title,
+            req.body.content
         ]
 
         db.query(q, [values], (err)=>{
             if(err) return res.status(500).json(err)
-            return res.json("Project has been created!")
+            return res.json("Note has been created!")
         })
+    })
+    
+} 
+
+export const editNote = (req, res) => {
+    const q = "UPDATE notes SET `content` = ? WHERE `uuid` = ?"
+    db.query(q, [req.body.content, req.body.uuid], (err)=>{
+        if(err) return res.status(500).json(err)
+        return res.json("Note has been edited")
     })
 }
 
-export const deleteProject = (req, res)=>{
-    const q = "DELETE FROM projects WHERE uuid IN (?)"
-    db.query(q, [req.query.uuids], (err, data)=>{
+export const deleteNote = (req, res) => {
+    const q = "DELETE FROM notes WHERE uuid = ?"
+    db.query(q, [req.query.uuid], (err, data)=>{
         if(err) return res.status(500).json(err)
-        return res.json("Project has been deleted!")
+        return res.json("Note has been deleted!")
     })
 }
+

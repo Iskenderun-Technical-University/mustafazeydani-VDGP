@@ -147,34 +147,54 @@ a {
 .notes-header {
     width: 100%;
     display: flex;
-    justify-content: space-between;
     font-size: 1.5em;
     margin-bottom: 1em;
+    gap: .3em;
 }
 
-.add-note {
-    position: absolute;
+.notes-header p {
+    margin-right: auto;
+}
+
+.notes-header-icons {
+    position: relative;
     font-size: 1em;
     background: none;
-    right: 1.3em;
-    line-height: .7;
+    line-height: .5;
     padding: .3em;
     border-radius: 50%;
     border: 2px solid transparent;
     transition: var(--transition);
 }
 
-.add-note:hover {
+.notes-header-icons:hover {
     border: 2px solid var(--color-primary);
     cursor: pointer;
 }
 
-.notes-content {
+.notes-container {
     width: 100%;
+    height: 100%;
     display: flex;
+    align-items: center;
     flex-direction: column;
     gap: 1em;
     overflow-y: auto;
+}
+
+.note-content {
+    height: 100%;
+    width: 100%;
+    border: 2px solid var(--color-primary);
+    resize: none;
+    border-radius: 1em;
+    background-attachment: local;
+    background-image:
+        linear-gradient(to right, white 10px, transparent 10px),
+        linear-gradient(to left, white 10px, transparent 10px),
+        repeating-linear-gradient(white, white 30px, #ccc 30px, #ccc 31px, white 31px);
+    line-height: 31px;
+    padding: 8px 10px;
 }
 
 .note {
@@ -183,16 +203,22 @@ a {
     align-items: center;
     gap: 0.7em;
     padding: .8em;
-    /* background-color: var(--color-primary);
-    color: var(--color-variant); */
 }
 
-.note-icons {
+.note-icon-btn {
     font-size: 1.3em;
+    line-height: 50%;
+    background: none;
+    color: var(--color-darkgrey);
+    cursor: pointer;
 }
 
-.note-icons:hover {
-    color: var(--color-darkgrey);
+.note-icon-btn:hover {
+    color: var(--color-variant);
+}
+
+.note-icon {
+    pointer-events: none;
 }
 
 .note-title {
