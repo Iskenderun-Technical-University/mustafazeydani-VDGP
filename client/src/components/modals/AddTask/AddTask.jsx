@@ -2,17 +2,19 @@ import React, { useState } from "react";
 import "./addtask.css";
 import axios from "axios";
 import { v4 as uuidv4 } from "uuid";
+import moment from "moment";
 
 function AddTask({
   setShowAddTask,
-  tasks,
-  setTasks,
+  projCompleted,
+  setProjCompleted,
+  setWaiting,
+  setAllTasks,
   userStats,
   setUserStats,
   project_name,
   project_uuid,
 }) {
-  
   const [inputs, setInputs] = useState({
     task: "",
     deadline: "",
@@ -34,20 +36,36 @@ function AddTask({
         project_uuid: project_uuid,
         ...inputs,
         status: "Waiting",
-        project_name: project_name
+        project_name: project_name,
       };
-      await axios.post("/tasks", requestData).then(()=>{
-        axios.put("/stats", {curr: userStats.ongoing_tasks, stat: "ongo", op: "incr"})
-        setUserStats(prevStats => ({ ...prevStats, ongoing_tasks: prevStats.ongoing_tasks + 1 }))
+
+      await axios.post("/tasks", requestData).then(() => {
+        axios.put("/stats", {
+          curr: userStats.ongoing_tasks,
+          stat: "ongo",
+          op: "incr",
+          count: 1,
+        });
+        setUserStats((prevStats) => ({
+          ...prevStats,
+          completed_projects: projCompleted
+            ? prevStats.completed_projects - 1
+            : prevStats.completed_projects,
+          ongoing_tasks: prevStats.ongoing_tasks + 1,
+          overdue_tasks: moment(inputs.deadline).isBefore(moment())
+            ? prevStats.overdue_tasks + 1
+            : prevStats.overdue_tasks,
+        }));
       });
-      setTasks([...tasks, requestData]);
+      projCompleted && setProjCompleted(false)
+      setAllTasks((prevState) => [...prevState, requestData]);
+      setWaiting((prevState) => [...prevState, requestData]);
     } catch (err) {
       //
     }
     setShowAddTask(false);
   };
 
-  
   return (
     <div className="add-task modal-back">
       <div className="modal">

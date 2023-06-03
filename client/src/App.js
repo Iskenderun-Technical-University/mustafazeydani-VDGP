@@ -101,6 +101,7 @@ function App() {
                   <Projects 
                     allProjects={allProjects}
                     setAllProjects={setAllProjects}
+                    allTasks={allTasks}
                     selectedProjects={selectedProjects} 
                     setSelectedProjects={setSelectedProjects} 
                     fetching={fetching} 
@@ -109,6 +110,8 @@ function App() {
                     setProjectSortBy={setProjectSortBy}
                     projectFilter={projectFilter}
                     setProjectFilter={setProjectFilter}
+                    userStats={userStats}
+                    setUserStats={setUserStats}
                   />
                 }
               />
@@ -126,7 +129,7 @@ function App() {
                   />
                 } 
               />
-              <Route path="/projects/:name/:uuid" element={<Single userStats={userStats} setUserStats={setUserStats} fetching={fetching} setFetching={setFetching}/>} />
+              <Route path="/projects/:name/:uuid" element={<Single setAllTasks={setAllTasks} userStats={userStats} setUserStats={setUserStats} fetching={fetching} setFetching={setFetching}/>} />
             </Route>
               <Route path="/register" element={
                 <ProtectedRoute>

@@ -24,11 +24,14 @@ const Panels = ({
 
   useEffect(() => {
     const fetchStats = async () => {
-      const res = await axios.get("/stats");
-      setUserStats(res.data);
-    };
+      const [statsRes, overdueRes] = await Promise.all([
+        axios.get("/stats"),
+        axios.get("/tasks/overdue")
+      ])
+      setUserStats({...statsRes.data, overdue_tasks: overdueRes.data.overdue_count});
+    }
     fetchStats();
-  }, []);
+  }, [setUserStats]);
 
   const handleSelect = (menu) => {
     setSelectedMenu(menu);

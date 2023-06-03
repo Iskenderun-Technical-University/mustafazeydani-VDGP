@@ -11,6 +11,7 @@ import ConfirmDelete from "../../components/modals/ConfirmDelete/ConfirmDelete"
 const Projects = ({
   allProjects,
   setAllProjects,
+  allTasks,
   selectedProjects,
   setSelectedProjects,
   fetching,
@@ -18,7 +19,9 @@ const Projects = ({
   projectSortBy,
   setProjectSortBy,
   projectFilter,
-  setProjectFilter
+  setProjectFilter,
+  userStats,
+  setUserStats
 }) => {
   const navigate = useNavigate()
 
@@ -108,7 +111,7 @@ const Projects = ({
   
   useEffect(()=>{
     handleFilter(projectFilter) // eslint-disable-next-line
-  }, [projectFilter, projects])
+  }, [projectFilter, allProjects])
 
   const [showConfirmDelete, setShowConfirmDelete] = useState(false)
   const handleDeleteButtonClick = () => {
@@ -119,11 +122,15 @@ const Projects = ({
     <div className="projects">
       {showConfirmDelete && (
         <ConfirmDelete
+          userStats={userStats}
+          setUserStats={setUserStats}
           setAllProjects={setAllProjects}
+          allTasks={allTasks}
           selectedProjects={selectedProjects}
           setShowConfirmDelete={setShowConfirmDelete}
           setSelectedProjects={setSelectedProjects}
           setAreAllSelected={setAreAllSelected}
+          setError={setError}
           type={"project"}
         />
       )}

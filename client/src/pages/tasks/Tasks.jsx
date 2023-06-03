@@ -50,7 +50,7 @@ function Tasks({setSelectedMenu, allTasks, setAllTasks, taskSortBy, setTaskSortB
   handleSort(taskSortBy)
   useEffect(()=>{
     handleFilter(taskFilter) // eslint-disable-next-line
-  }, [taskFilter, tasks])
+  }, [taskFilter, allTasks])
 
   useEffect(() => {
     setFetching(true)

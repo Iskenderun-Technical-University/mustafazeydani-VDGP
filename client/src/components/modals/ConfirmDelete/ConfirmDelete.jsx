@@ -1,11 +1,12 @@
 import axios from 'axios'
 import React from 'react'
+import moment from 'moment'
 import "./confirmdelete.css"
 import "../common.css"
 
 function ConfirmDelete({
   userStats, setUserStats, // User Stats
-  setTasks, taskDeleteUuid, // Tasks 
+  setWaiting, taskToDelete, allTasks, // Tasks 
   setAllProjects, selectedProjects, setSelectedProjects, setAreAllSelected, // Projects
   setError, setShowConfirmDelete, type // Common
 }) {
@@ -14,10 +15,13 @@ function ConfirmDelete({
     setShowConfirmDelete(false)
   }
 
-  const handleSubmit = async e => {
+  const handleSubmit = async () => {
     if(type==="project") { // delete project
       try{
+        const deletedTasksCount = allTasks.filter((task)=> selectedProjects.includes(task.project_uuid) && task.status!=="Done").length
         await axios.delete("/projects", {params: { uuids: selectedProjects }})
+        axios.put("/stats", {curr: userStats.ongoing_tasks, stat: "ongo", op: "decr", count: deletedTasksCount})
+        setUserStats(prevStats => ({ ...prevStats, ongoing_tasks: prevStats.ongoing_tasks - deletedTasksCount }))
         setAllProjects((prevProjects) =>
           prevProjects.filter((project) => !selectedProjects.includes(project.uuid))
         )
@@ -31,11 +35,17 @@ function ConfirmDelete({
     
     else if(type==="task") { // delete task
       try{
-        await axios.delete("/tasks", {params: { uuid: taskDeleteUuid }}).then(()=>{
-          axios.put("/stats", {curr: userStats.ongoing_tasks, stat: "ongo", op: "decr"})
-          setUserStats(prevStats => ({ ...prevStats, ongoing_tasks: prevStats.ongoing_tasks - 1 }))
+        await axios.delete("/tasks", {params: { uuid: taskToDelete.uuid }}).then(()=>{
+          axios.put("/stats", {curr: userStats.ongoing_tasks, stat: "ongo", op: "decr", count: 1})
+          setUserStats((prevStats) => ({
+            ...prevStats,
+            ongoing_tasks: prevStats.ongoing_tasks - 1,
+            overdue_tasks: moment(taskToDelete.deadline).isBefore(moment())
+              ? prevStats.overdue_tasks - 1
+              : prevStats.overdue_tasks,
+          }));
         })
-        setTasks((prevTasks) => prevTasks.filter((task) => task.uuid !== taskDeleteUuid))
+        setWaiting((prevTasks) => prevTasks.filter((task) => task.uuid !== taskToDelete.uuid))
       }
       catch(err) {
         setError(err.response.message)

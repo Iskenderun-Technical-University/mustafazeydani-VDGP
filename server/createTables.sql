@@ -27,7 +27,7 @@ CREATE TABLE `tasks`(
     `user_uuid` VARCHAR(36) NOT NULL,
     `project_uuid` VARCHAR(36) NOT NULL,
     `task` VARCHAR(100) NOT NULL,
-    `deadline` DATE NOT NULL,
+    `deadline` DATETIME NOT NULL,
     `priority` VARCHAR(25) NOT NULL,
     `status` VARCHAR(25) NOT NULL,
     `project_name` VARCHAR(25) NOT NULL
@@ -43,8 +43,7 @@ CREATE TABLE `user_stats`(
     `user_uuid` VARCHAR(36) NOT NULL,
     `completed_projects` INT NOT NULL,
     `completed_tasks` INT NOT NULL,
-    `ongoing_tasks` INT NOT NULL,
-    `overdue_tasks` INT NOT NULL
+    `ongoing_tasks` INT NOT NULL
 );
 
 ALTER TABLE `user_stats` 
